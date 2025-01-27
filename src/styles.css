@@ -1,1 +1,63 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.flex-gap {
+  gap: 16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.add-to-today-button-absolute {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.position-fixed-top-left {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}

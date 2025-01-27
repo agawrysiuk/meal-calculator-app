@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Pick Date</h2>
+<form (ngSubmit)="onPickDate()">
+  <mat-dialog-content>
+    <app-date-picker-input [(selectedDate)]="selectedDate"></app-date-picker-input>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [matDialogClose]="closeDialog">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!selectedDate">Pick date</button>
+  </mat-dialog-actions>
+</form>

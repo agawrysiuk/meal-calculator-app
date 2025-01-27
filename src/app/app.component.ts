@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {DataService} from './service/data.service';
+import {BasePropertiesPer100HundredGramDto} from './dto/dto';
+import {formatDate} from './common/helper';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +10,13 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'meal-counter-app';
+
+  today?: BasePropertiesPer100HundredGramDto;
+  todaysDate: string = formatDate(new Date())
+
+  constructor(private dataService: DataService) {
+    this.dataService.today.asObservable().subscribe(next => {
+      this.today = next;
+    })
+  }
 }

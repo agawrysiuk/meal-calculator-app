@@ -1,0 +1,15 @@
+.mat-form-field {
+  width: 100%;
+}
+
+.custom-search-input {
+  padding: 8px;
+  margin-bottom: 4px;
+  background-color: #fff;
+}
+
+.mat-select-content .custom-search-input input {
+  border: none;
+  outline: none;
+  width: calc(100% - 16px);
+}

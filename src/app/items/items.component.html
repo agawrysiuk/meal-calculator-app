@@ -1,0 +1,9 @@
+<div class="flex-column text-center">
+  <h1>Items</h1>
+  <button mat-flat-button (click)="openDialog()" style="margin-block-end: 1.67em">
+    <mat-icon>add</mat-icon>
+    Add item
+  </button>
+
+  <app-items-table [items]="items"></app-items-table>
+</div>

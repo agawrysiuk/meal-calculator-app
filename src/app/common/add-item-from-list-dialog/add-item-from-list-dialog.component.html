@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>{{ buttonText }}</h2>
+<form [formGroup]="form" (submit)="submit()">
+  <mat-dialog-content>
+    <app-item-searchable-dropdown [items]="items" [(item)]="chosenItem" (itemChange)="onItemSelect($event)" [editMode]="editMode"></app-item-searchable-dropdown>
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required/>
+    </mat-form-field>
+    <br/>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Grams</mat-label>
+      <input matInput type="number" formControlName="grams" required/>
+    </mat-form-field>
+    <br/>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Calories</mat-label>
+      <input matInput type="number" formControlName="calories" required/>
+    </mat-form-field>
+    <br/>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Protein (g)</mat-label>
+      <input matInput type="number" formControlName="protein" required/>
+    </mat-form-field>
+    <br/>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Fat (g)</mat-label>
+      <input matInput type="number" formControlName="fat" required/>
+    </mat-form-field>
+    <br/>
+
+    <mat-form-field appearance="fill" style="width:100%">
+      <mat-label>Carbohydrates (g)</mat-label>
+      <input matInput type="number" formControlName="carbohydrates" required/>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [matDialogClose]="closeDialog">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || !chosenItem">{{ buttonText }}
+    </button>
+  </mat-dialog-actions>
+</form>

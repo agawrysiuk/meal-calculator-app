@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+  <mat-label>Select Item</mat-label>
+  <mat-select [formControl]="selectedItemControl" (closed)="onClosed()" (selectionChange)="onSelectionChange($event)">
+    <ng-container *ngTemplateOutlet="searchTemplate"></ng-container>
+    <mat-option *ngFor="let item of filteredItems" [value]="item">{{ item.name }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<ng-template #searchTemplate>
+  <div class="custom-search-input mat-mdc-option mdc-list-item">
+    <input class="mat-mdc-input-element mat-mdc-form-field-input-control mdc-text-field__input" matInput placeholder="Search..." (keyup)="filterItems($event)" />
+  </div>
+</ng-template>

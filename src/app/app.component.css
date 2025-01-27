@@ -1,0 +1,51 @@
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+}
+
+.app-root {
+  height: 100%;
+}
+
+:host ::ng-deep .mat-sidenav-container {
+  height: 100%;
+}
+
+:host ::ng-deep mat-sidenav-content {
+  overflow-y: auto;
+}
+
+mat-sidenav {
+  width: 200px;
+  height: 100%;
+}
+
+mat-nav-list a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.menu-button {
+  display: block;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 24px;
+}
+
+.today-calories {
+  * {
+    padding-left: 12px;
+  }
+}
+
+.router-links {
+  a {
+    color: white;
+  }
+}
+
+.mat-toolbar {
+  background-color: #0B132B;
+}

@@ -1,0 +1,48 @@
+<div style="display: flex; flex-direction: column; align-items: center;">
+  <h1>{{ selectedDate ? (selectedDate | date:'fullDate') : 'Select a Date' }}</h1>
+  <p><strong>Sum:</strong> {{ daySum.calories }} kcal, protein: {{ daySum.protein }} g, fat: {{ daySum.fat }} g,
+    carbs: {{ daySum.carbohydrates }} g</p>
+
+  <app-date-picker-input [(selectedDate)]="selectedDate" (selectedDateChange)="getMeals()"></app-date-picker-input>
+</div>
+<div class="display-flex flex-row flex-justify-center flex-gap" style="margin-bottom: 20px">
+  <div class="text-center">
+    <app-add-to-day-button [toAdd]="{name: '', itemsUsed: [], fromDate: selectedDate}" [onlyEmit]="true" (actionMadeEmitter)="copyToDay($event)"
+                           [buttonText]="'Copy day to...'"></app-add-to-day-button>
+  </div>
+  <div class="text-center">
+    <button mat-flat-button (click)="openAddItemFromListDialog()">
+      <mat-icon>add</mat-icon>
+      Add item
+    </button>
+  </div>
+</div>
+<div class="display-flex flex-column text-center">
+  <div class="meal" *ngFor="let meal of dayMeals">
+    <div class="display-flex flex-row flex-align-center">
+      <div class="flex-grow-1">
+        <h2>{{ meal.name }}</h2>
+        <p><strong>Sum:</strong> {{ meal.sumCalories }} kcal, protein: {{ meal.sumProtein }} g, fat: {{ meal.sumFat }} g,
+          carbs: {{ meal.sumCarbohydrates }} g</p>
+      </div>
+      <div class="display-flex flex-row flex-gap">
+        <button mat-flat-button (click)="openAddItemFromListDialog(meal.id)">
+          <mat-icon>add</mat-icon>
+          Add item
+        </button>
+        <app-add-to-day-button [toAdd]="{name: meal.name, itemsUsed: meal.itemsUsed}"></app-add-to-day-button>
+        <button mat-flat-button (click)="deleteMeal(meal.id!)"
+                style="margin-block-end: 1.67em; background-color: red;">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </div>
+    </div>
+    <app-items-table
+      [items]="meal.itemsUsed"
+      [allowDeletion]="true" (itemToDeleteEmitter)="catchItemToDelete($event)"
+      [allowEdit]="true" (itemToEditEmitter)="catchItemToEdit($event)"
+      [allowMove]="true" (itemToMoveEmitter)="catchItemToMove($event, meal.id!)"
+    ></app-items-table>
+  </div>
+</div>

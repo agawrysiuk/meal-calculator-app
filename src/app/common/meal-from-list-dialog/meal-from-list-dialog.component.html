@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Pick meal</h2>
+<form (ngSubmit)="pickMeal()">
+  <mat-dialog-content>
+    <app-meal-searchable-dropdown [meals]="meals" (mealChange)="onMealChange($event)"></app-meal-searchable-dropdown>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button [matDialogClose]="closeDialog">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!selection">Pick meal</button>
+  </mat-dialog-actions>
+</form>

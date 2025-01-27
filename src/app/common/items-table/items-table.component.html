@@ -1,0 +1,58 @@
+<mat-table [dataSource]="items">
+  <!-- Name Column -->
+  <ng-container matColumnDef="Name">
+    <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.name }}</mat-cell>
+  </ng-container>
+
+  <!-- Grams Column -->
+  <ng-container matColumnDef="Grams">
+    <mat-header-cell *matHeaderCellDef> Grams</mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.grams }} g</mat-cell>
+  </ng-container>
+
+  <!-- Calories Column -->
+  <ng-container matColumnDef="Calories">
+    <mat-header-cell *matHeaderCellDef> Calories</mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.properties.calories }} kcal</mat-cell>
+  </ng-container>
+
+  <!-- Protein Column -->
+  <ng-container matColumnDef="Protein">
+    <mat-header-cell *matHeaderCellDef> Protein</mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.properties.protein }} g</mat-cell>
+  </ng-container>
+
+  <!-- Fat Column -->
+  <ng-container matColumnDef="Fat">
+    <mat-header-cell *matHeaderCellDef> Fat</mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.properties.fat }} g</mat-cell>
+  </ng-container>
+
+  <!-- Carbohydrates Column -->
+  <ng-container matColumnDef="Carbohydrates">
+    <mat-header-cell *matHeaderCellDef> Carbohydrates</mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{ item.properties.carbohydrates }} g</mat-cell>
+  </ng-container>
+
+  <!-- Edit Column -->
+  <ng-container *ngIf="allowEdit" matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let item" (click)="emitEdit(item)" style="cursor: pointer"> <i class="material-icons">edit</i> </mat-cell>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container *ngIf="allowDeletion" matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let item" (click)="emitDelete(item)" style="cursor: pointer"> <i class="material-icons">delete</i> </mat-cell>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container *ngIf="allowMove" matColumnDef="move">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let item" (click)="emitMove(item)" style="cursor: pointer"> <i class="material-icons">swap_horiz</i> </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
