@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "meal-counter-app": {
+    "meal-calculator-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/meal-counter-app",
+            "outputPath": "dist/meal-calculator-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "meal-counter-app:build:production"
+              "buildTarget": "meal-calculator-app:build:production"
             },
             "development": {
-              "buildTarget": "meal-counter-app:build:development"
+              "buildTarget": "meal-calculator-app:build:development"
             }
           },
           "defaultConfiguration": "development"

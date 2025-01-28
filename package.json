@@ -1,5 +1,5 @@
 {
-  "name": "meal-counter-app",
+  "name": "meal-calculator-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
