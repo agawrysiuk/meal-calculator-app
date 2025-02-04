@@ -5,6 +5,7 @@ import {emptyBaseProperties, formatDate, sumDataFromMeals} from '../common/helpe
 import {MatDialog} from '@angular/material/dialog';
 import {AddItemFromListDialogComponent} from '../common/add-item-from-list-dialog/add-item-from-list-dialog.component';
 import {MealFromListDialogComponent} from '../common/meal-from-list-dialog/meal-from-list-dialog.component';
+import {PickStringDialogComponent} from '../common/pick-string-dialog/pick-string-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -121,6 +122,20 @@ export class HomeComponent {
           usedItemId: $event.id!
         }
         this.dataService.moveItemFromMealToMeal(request).subscribe(response => {
+          this.update();
+        })
+      }
+    });
+  }
+
+  renameMeal(mealId: string, name: string) {
+    const dialogRef = this.dialog.open(PickStringDialogComponent, {
+      data: name,
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result && !result.includes("closeDialog")) {
+        this.dataService.renameMeal(mealId, result).subscribe(response => {
           this.update();
         })
       }

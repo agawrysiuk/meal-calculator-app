@@ -21,7 +21,9 @@
   <div class="meal" *ngFor="let meal of dayMeals">
     <div class="display-flex flex-row flex-align-center">
       <div class="flex-grow-1">
-        <h2>{{ meal.name }}</h2>
+        <div class="display-flex flex-justify-center flex-align-center">
+          <h2 style="margin-right: 8px">{{ meal.name }}</h2> <i class="material-icons" style="cursor: pointer" (click)="renameMeal(meal.id!!, meal.name)">edit</i>
+        </div>
         <p><strong>Sum:</strong> {{ meal.sumCalories }} kcal, protein: {{ meal.sumProtein }} g, fat: {{ meal.sumFat }} g,
           carbs: {{ meal.sumCarbohydrates }} g</p>
       </div>

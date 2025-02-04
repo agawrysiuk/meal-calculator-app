@@ -83,4 +83,8 @@ export class DataService {
   addItemToMeal(mealId: string, item: ItemUsedDto): Observable<unknown> {
     return this.http.post<unknown>(this.baseUrl + '/api/meal/' + mealId + '/items-used', item)
   }
+
+  renameMeal(mealId: string, newName: string): Observable<unknown> {
+    return this.http.put<unknown>(this.baseUrl + '/api/meal/' + mealId + '/name', newName)
+  }
 }

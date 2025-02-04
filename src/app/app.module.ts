@@ -32,6 +32,7 @@ import { PickDateDialogComponent } from './common/pick-date-dialog/pick-date-dia
 import { DatePickerInputComponent } from './common/date-picker-input/date-picker-input.component';
 import {MealSearchableDropdownComponent} from './common/meals-searchable-dropdown/meal-searchable-dropdown.component';
 import { MealFromListDialogComponent } from './common/meal-from-list-dialog/meal-from-list-dialog.component';
+import { PickStringDialogComponent } from './common/pick-string-dialog/pick-string-dialog.component';
 
 export function initData(dataService: DataService) {
   return () => dataService.init();
@@ -53,6 +54,7 @@ export function initData(dataService: DataService) {
     PickDateDialogComponent,
     DatePickerInputComponent,
     MealFromListDialogComponent,
+    PickStringDialogComponent,
   ],
   imports: [
     BrowserModule,
