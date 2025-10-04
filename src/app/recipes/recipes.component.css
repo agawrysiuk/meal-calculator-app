@@ -33,3 +33,13 @@
 .edit-button {
   margin-block-end: 1.67em;
 }
+
+.delete-button {
+  margin-block-end: 1.67em;
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.delete-button:hover {
+  background-color: #c82333 !important;
+}

@@ -1,13 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
-  height: 100%;
+html {
+  height: auto;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
 }
-body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
+  height: auto;
+  min-height: calc(100vh - 64px); /* Account for padding-top */
+  position: relative;
   overflow-x: hidden;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -18,12 +21,14 @@ body {
 @media (max-width: 768px) {
   body {
     padding-top: 120px; /* Increased height for stacked mobile toolbar */
+    min-height: calc(100vh - 120px); /* Account for new padding */
   }
 }
 
 @media (max-width: 480px) {
   body {
     padding-top: 100px; /* Adjusted for smaller mobile screens */
+    min-height: calc(100vh - 100px); /* Account for new padding */
   }
 }
 
@@ -222,4 +227,19 @@ body {
 .mat-mdc-select-panel input[type="text"]:focus {
   background-color: white;
   border-bottom-color: #007bff;
+}
+
+/* Global Dialog Backdrop Styling */
+.cdk-overlay-backdrop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 1000 !important;
+}
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1 !important;
 }

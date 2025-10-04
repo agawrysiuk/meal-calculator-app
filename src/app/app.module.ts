@@ -27,6 +27,7 @@ import {MatSelect} from '@angular/material/select';
 import { ItemsTableComponent } from './common/items-table/items-table.component';
 import { RecipeFormComponent } from './recipe-form/recipe-form.component';
 import { AddItemFromListDialogComponent } from './common/add-item-from-list-dialog/add-item-from-list-dialog.component';
+import { ConfirmationDialogComponent } from './common/confirmation-dialog/confirmation-dialog.component';
 import { AddToDayButtonComponent } from './common/add-to-day-button/add-to-day-button.component';
 import { PickDateDialogComponent } from './common/pick-date-dialog/pick-date-dialog.component';
 import { DatePickerInputComponent } from './common/date-picker-input/date-picker-input.component';
@@ -50,6 +51,7 @@ export function initData(dataService: DataService) {
     ItemsTableComponent,
     RecipeFormComponent,
     AddItemFromListDialogComponent,
+    ConfirmationDialogComponent,
     AddToDayButtonComponent,
     PickDateDialogComponent,
     DatePickerInputComponent,

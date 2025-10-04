@@ -22,7 +22,13 @@ export class RecipeFormComponent implements OnInit {
   
   mode: 'add' | 'edit' = 'add';
   recipeId: string = '';
-  recipe: RecipeDto | null = null;
+  recipe: RecipeDto = {
+    name: '',
+    servings: 1,
+    link: '',
+    description: '',
+    itemsUsed: []
+  };
 
   constructor(
     private dataService: DataService, 
@@ -47,9 +53,10 @@ export class RecipeFormComponent implements OnInit {
 
   loadRecipe() {
     this.dataService.recipes.asObservable().subscribe(recipes => {
-      this.recipe = recipes.find(r => r.id === this.recipeId) || null;
-      if (this.recipe) {
-        this.itemsUsed = [...this.recipe.itemsUsed];
+      const foundRecipe = recipes.find(r => r.id === this.recipeId);
+      if (foundRecipe) {
+        this.recipe = { ...foundRecipe };
+        this.itemsUsed = [...foundRecipe.itemsUsed];
         this.calculateSums();
       }
     });
@@ -73,10 +80,7 @@ export class RecipeFormComponent implements OnInit {
   onSubmit(itemForm: any) {
     if (itemForm.valid) {
       const recipeData: RecipeDto = {
-        name: itemForm.value.name,
-        servings: itemForm.value.servings,
-        link: itemForm.value.link!! ? itemForm.value.link : null,
-        description: itemForm.value.description!! ? itemForm.value.description : null,
+        ...this.recipe,
         itemsUsed: this.itemsUsed
       };
 

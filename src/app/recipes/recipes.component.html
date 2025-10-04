@@ -8,6 +8,10 @@
         <mat-icon>edit</mat-icon>
         Edit
       </button>
+      <button mat-flat-button (click)="confirmDelete(recipe)" class="delete-button">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
       <app-add-to-day-button [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}" [servings]="recipe.servings" (actionMadeEmitter)="refreshDay($event)"></app-add-to-day-button>
     </div>
     <p>Servings: {{ recipe.servings }}</p>

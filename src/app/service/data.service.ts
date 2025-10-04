@@ -56,6 +56,10 @@ export class DataService {
     return this.http.put<RecipeDto>(this.baseUrl + '/api/recipe/' + recipe.id, recipe)
   }
 
+  deleteRecipe(id: string): Observable<unknown> {
+    return this.http.delete(this.baseUrl + '/api/recipe/' + id)
+  }
+
   getMeals(date: Date): Observable<DayDto> {
     return this.http.get<DayDto>(this.baseUrl + '/api/day?date=' + formatDate(date))
   }
