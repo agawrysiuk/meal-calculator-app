@@ -11,6 +11,20 @@ body {
   overflow-x: hidden;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding-top: 64px; /* Default toolbar height */
+}
+
+/* Adjust body padding for responsive toolbar */
+@media (max-width: 768px) {
+  body {
+    padding-top: 120px; /* Increased height for stacked mobile toolbar */
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: 100px; /* Adjusted for smaller mobile screens */
+  }
 }
 
 .display-flex {
@@ -60,4 +74,152 @@ body {
 
 .flex-grow-1 {
   flex-grow: 1;
+}
+
+/* Enhanced Material Form Field Styling - Table Row Compatible */
+.mat-mdc-form-field {
+  margin-bottom: 8px;
+}
+
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+  min-height: 48px; /* Match table row height */
+}
+
+.mat-mdc-form-field .mat-mdc-text-field-wrapper:hover {
+  border-color: #6c757d;
+  background-color: #f1f3f4;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  border-color: #007bff;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.mat-mdc-form-field .mat-mdc-floating-label {
+  color: #495057;
+  font-weight: 600;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #007bff;
+}
+
+.mat-mdc-form-field .mdc-text-field__input {
+  color: #212529;
+  padding: 12px 8px; /* Match table cell padding */
+}
+
+.mat-mdc-form-field .mdc-text-field__input::placeholder {
+  color: #6c757d;
+}
+
+/* Textarea specific styling */
+.mat-mdc-form-field textarea.mdc-text-field__input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Error state styling */
+.mat-mdc-form-field.mat-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.mat-mdc-form-field.mat-form-field-invalid .mat-mdc-floating-label {
+  color: #dc3545;
+}
+
+/* Enhanced Material Select and Option Styling - Table Row Compatible */
+.mat-mdc-select {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+  min-height: 48px; /* Match table row height */
+}
+
+.mat-mdc-select:hover {
+  border-color: #6c757d;
+  background-color: #f1f3f4;
+}
+
+.mat-mdc-select.mat-focused {
+  border-color: #007bff;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Dropdown panel styling */
+.mat-mdc-select-panel {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  margin-top: 4px;
+}
+
+/* Option styling - Match table cell styling */
+.mat-mdc-option {
+  padding: 12px 8px; /* Match table cell padding */
+  color: #212529;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e9ecef;
+  min-height: 48px; /* Match table row height */
+  display: flex;
+  align-items: center;
+}
+
+.mat-mdc-option:last-child {
+  border-bottom: none;
+}
+
+.mat-mdc-option:hover {
+  background-color: #f8f9fa;
+}
+
+.mat-mdc-option.mat-mdc-option-active {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.mat-mdc-option.mat-mdc-option-selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.mat-mdc-option.mat-mdc-option-selected:hover {
+  background-color: #0056b3;
+}
+
+/* Option text styling */
+.mat-mdc-option .mdc-list-item__primary-text {
+  font-weight: 500;
+}
+
+/* Disabled state */
+.mat-mdc-option.mat-mdc-option-disabled {
+  color: #adb5bd;
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+/* Search input in dropdowns */
+.mat-mdc-select-panel input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-bottom: 1px solid #e9ecef;
+  outline: none;
+  font-size: 14px;
+  background-color: #f8f9fa;
+}
+
+.mat-mdc-select-panel input[type="text"]:focus {
+  background-color: white;
+  border-bottom-color: #007bff;
 }

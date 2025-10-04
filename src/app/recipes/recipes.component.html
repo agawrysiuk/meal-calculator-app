@@ -1,18 +1,21 @@
 <div class="flex-column text-center">
   <h1>Recipes</h1>
 
-  <div class="recipes" *ngFor="let recipe of recipes | async">
-    <div class="add-to-today-button-absolute">
+  <div class="recipe-card" *ngFor="let recipe of recipes | async">
+    <h2>{{ recipe.name }}</h2>
+    <div class="recipe-actions">
+      <button mat-flat-button [routerLink]="['/edit-recipe', recipe.id]" class="edit-button">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
       <app-add-to-day-button [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}" [servings]="recipe.servings" (actionMadeEmitter)="refreshDay($event)"></app-add-to-day-button>
     </div>
-    <h2>{{ recipe.name }}</h2>
     <p>Servings: {{ recipe.servings }}</p>
     <p><strong>Sum:</strong> {{ recipe.sumCalories }} kcal, protein: {{ recipe.sumProtein }} g, fat: {{ recipe.sumFat }} g,
       carbs: {{ recipe.sumCarbohydrates }} g</p>
     <p *ngIf="recipe.link"><a href="{{recipe.link}}">{{recipe.link}}</a> </p>
     <p *ngIf="recipe.description">{{recipe.description}}</p>
     <app-items-table [items]="recipe.itemsUsed"/>
-    <br />
   </div>
 
 </div>

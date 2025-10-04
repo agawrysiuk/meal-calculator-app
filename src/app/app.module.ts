@@ -25,7 +25,7 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { ItemSearchableDropdownComponent } from './common/item-searchable-dropdown/item-searchable-dropdown.component';
 import {MatSelect} from '@angular/material/select';
 import { ItemsTableComponent } from './common/items-table/items-table.component';
-import { AddRecipeComponent } from './add-recipe/add-recipe.component';
+import { RecipeFormComponent } from './recipe-form/recipe-form.component';
 import { AddItemFromListDialogComponent } from './common/add-item-from-list-dialog/add-item-from-list-dialog.component';
 import { AddToDayButtonComponent } from './common/add-to-day-button/add-to-day-button.component';
 import { PickDateDialogComponent } from './common/pick-date-dialog/pick-date-dialog.component';
@@ -48,7 +48,7 @@ export function initData(dataService: DataService) {
     ItemSearchableDropdownComponent,
     MealSearchableDropdownComponent,
     ItemsTableComponent,
-    AddRecipeComponent,
+    RecipeFormComponent,
     AddItemFromListDialogComponent,
     AddToDayButtonComponent,
     PickDateDialogComponent,

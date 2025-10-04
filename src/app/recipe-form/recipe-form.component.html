@@ -1,0 +1,40 @@
+<div class="text-center" *ngIf="mode === 'add' || (mode === 'edit' && recipe)">
+<form #itemForm="ngForm" (ngSubmit)="onSubmit(itemForm)">
+  <h2 mat-dialog-title>{{ getTitle() }}</h2>
+  <p><strong>Sum:</strong> {{ sumCalories }} kcal, protein: {{ sumProtein }} g, fat: {{ sumFat }} g,
+    carbs: {{ sumCarbohydrates }} g</p>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!itemForm.valid || itemsUsed.length < 1">{{ getButtonText() }}</button>
+  <br />
+  <br />
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Name</mat-label>
+    <input matInput ngModel name="name" [value]="recipe?.name || ''" required/>
+  </mat-form-field>
+  <br/>
+
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Servings</mat-label>
+    <input matInput type="number" ngModel name="servings" [value]="recipe?.servings || ''" required/>
+  </mat-form-field>
+  <br/>
+
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Link</mat-label>
+    <input matInput ngModel name="link" [value]="recipe?.link || ''"/>
+  </mat-form-field>
+  <br/>
+
+  <mat-form-field appearance="fill" style="width:100%">
+    <mat-label>Description</mat-label>
+    <textarea matInput ngModel name="description" [value]="recipe?.description || ''"></textarea>
+  </mat-form-field>
+  <br/>
+</form>
+  <button mat-flat-button (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+    Add item
+  </button>
+  <br/>
+  <br/>
+</div>
+<app-items-table [items]="itemsUsed" [allowDeletion]="true" (itemToDeleteEmitter)="catchItemToDelete($event)"></app-items-table>

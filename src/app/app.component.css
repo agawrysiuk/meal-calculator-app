@@ -48,4 +48,57 @@ mat-nav-list a {
 
 .mat-toolbar {
   background-color: #0B132B;
+  flex-wrap: wrap;
+  min-height: 64px;
+  width: 100%;
+}
+
+/* Override Material Design toolbar constraints for responsive layout */
+@media (max-width: 768px) {
+  .mat-toolbar.mat-toolbar-single-row {
+    height: auto !important;
+    min-height: 90px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    white-space: normal !important;
+    padding: 8px 16px !important;
+  }
+  
+  .router-links {
+    margin-bottom: 8px;
+    width: 100%;
+  }
+  
+  .today-calories {
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 14px !important; /* Keep same size as default */
+  }
+  
+  .today-calories div {
+    padding-left: 8px !important;
+  }
+  
+  .today-calories div:first-child {
+    padding-left: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mat-toolbar.mat-toolbar-single-row {
+    min-height: 85px !important;
+  }
+  
+  .router-links a {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+  
+  .today-calories {
+    font-size: 12px !important; /* Match the link font size */
+  }
+  
+  .today-calories div {
+    padding-left: 6px !important;
+  }
 }
