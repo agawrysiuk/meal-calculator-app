@@ -20,6 +20,7 @@ import {provideHttpClient} from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AddItemDialogComponent} from './items/add-item-dialog/add-item-dialog.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ItemSearchableDropdownComponent } from './common/item-searchable-dropdown/item-searchable-dropdown.component';
@@ -34,6 +35,7 @@ import { DatePickerInputComponent } from './common/date-picker-input/date-picker
 import {MealSearchableDropdownComponent} from './common/meals-searchable-dropdown/meal-searchable-dropdown.component';
 import { MealFromListDialogComponent } from './common/meal-from-list-dialog/meal-from-list-dialog.component';
 import { PickStringDialogComponent } from './common/pick-string-dialog/pick-string-dialog.component';
+import { FileUploadModalComponent } from './common/file-upload-modal/file-upload-modal.component';
 
 export function initData(dataService: DataService) {
   return () => dataService.init();
@@ -57,6 +59,7 @@ export function initData(dataService: DataService) {
     DatePickerInputComponent,
     MealFromListDialogComponent,
     PickStringDialogComponent,
+    FileUploadModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +77,7 @@ export function initData(dataService: DataService) {
     MatTableModule,
     MatIconModule,
     MatDialogModule,
+    MatProgressBarModule,
     MatSelect,
     MatOption,
   ],

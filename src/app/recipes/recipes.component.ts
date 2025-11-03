@@ -20,6 +20,23 @@ export class RecipesComponent {
     this.recipes = this.dataService.recipes.asObservable();
   }
 
+  getImageUrl(recipeId: string): string {
+    return `http://localhost:8080/api/recipe/${recipeId}/image`;
+  }
+
+  getPdfUrl(recipeId: string): string {
+    return `http://localhost:8080/api/recipe/${recipeId}/pdf`;
+  }
+
+  openPdf(recipeId: string): void {
+    window.open(this.getPdfUrl(recipeId), '_blank');
+  }
+
+  handleImageError(event: any): void {
+    // Hide broken image icon by setting a transparent 1x1 pixel
+    event.target.style.display = 'none';
+  }
+
   refreshDay($event: { fromDate?: Date; toDate: Date }) {
     if ($event.toDate == new Date()) {
       this.dataService.updateToday();

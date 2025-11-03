@@ -60,6 +60,18 @@ export class DataService {
     return this.http.delete(this.baseUrl + '/api/recipe/' + id)
   }
 
+  uploadRecipeImage(recipeId: string, file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(this.baseUrl + '/api/recipe/' + recipeId + '/image', formData, { responseType: 'text' })
+  }
+
+  uploadRecipePdf(recipeId: string, file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(this.baseUrl + '/api/recipe/' + recipeId + '/pdf', formData, { responseType: 'text' })
+  }
+
   getMeals(date: Date): Observable<DayDto> {
     return this.http.get<DayDto>(this.baseUrl + '/api/day?date=' + formatDate(date))
   }

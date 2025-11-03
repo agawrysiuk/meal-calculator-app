@@ -3,6 +3,16 @@
 
   <div class="recipe-card" *ngFor="let recipe of recipes | async">
     <h2>{{ recipe.name }}</h2>
+
+    <!-- Recipe Image -->
+    <div *ngIf="recipe.hasImage" class="recipe-image-container">
+      <img [src]="getImageUrl(recipe.id!)"
+           [alt]="recipe.name"
+           loading="lazy"
+           class="recipe-image"
+           (error)="handleImageError($event)">
+    </div>
+
     <div class="recipe-actions">
       <button mat-flat-button [routerLink]="['/edit-recipe', recipe.id]" class="edit-button">
         <mat-icon>edit</mat-icon>
@@ -12,12 +22,16 @@
         <mat-icon>delete</mat-icon>
         Delete
       </button>
+      <button *ngIf="recipe.hasPdf" mat-stroked-button (click)="openPdf(recipe.id!)" class="pdf-button">
+        <mat-icon>picture_as_pdf</mat-icon>
+        View PDF
+      </button>
       <app-add-to-day-button [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}" [servings]="recipe.servings" (actionMadeEmitter)="refreshDay($event)"></app-add-to-day-button>
     </div>
     <p>Servings: {{ recipe.servings }}</p>
     <p><strong>Sum:</strong> {{ recipe.sumCalories }} kcal, protein: {{ recipe.sumProtein }} g, fat: {{ recipe.sumFat }} g,
       carbs: {{ recipe.sumCarbohydrates }} g</p>
-    <p *ngIf="recipe.link"><a href="{{recipe.link}}">{{recipe.link}}</a> </p>
+    <p *ngIf="recipe.link"><a href="{{recipe.link}}" target="_blank">{{recipe.link}}</a> </p>
     <p *ngIf="recipe.description">{{recipe.description}}</p>
     <app-items-table [items]="recipe.itemsUsed"/>
   </div>

@@ -43,3 +43,30 @@
 .delete-button:hover {
   background-color: #c82333 !important;
 }
+
+.recipe-image-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 400px;
+}
+
+.pdf-button {
+  margin-block-end: 1.67em;
+  color: #d32f2f !important;
+  border-color: #d32f2f !important;
+}
+
+.pdf-button:hover {
+  background-color: rgba(211, 47, 47, 0.04) !important;
+}

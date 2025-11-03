@@ -1,0 +1,47 @@
+.upload-modal {
+  min-width: 400px;
+  padding: 16px;
+}
+
+.upload-item {
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.file-info mat-icon {
+  margin-right: 8px;
+  color: #666;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.status-uploading {
+  color: #2196f3;
+}
+
+.status-success {
+  color: #4caf50;
+}
+
+.status-error {
+  color: #f44336;
+}
+
+.overall-status {
+  text-align: center;
+  margin: 16px 0;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}

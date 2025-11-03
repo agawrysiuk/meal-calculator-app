@@ -1,0 +1,45 @@
+<div class="upload-modal">
+  <h2 mat-dialog-title>Uploading Files</h2>
+  
+  <mat-dialog-content>
+    <div *ngIf="imageFile" class="upload-item">
+      <div class="file-info">
+        <mat-icon>image</mat-icon>
+        <span>{{ imageFile.name }}</span>
+      </div>
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="imageProgress"
+        [color]="getProgressColor(imageStatus)">
+      </mat-progress-bar>
+      <div class="status" [ngClass]="'status-' + imageStatus">
+        {{ getStatusText(imageStatus) }}
+      </div>
+    </div>
+
+    <div *ngIf="pdfFile" class="upload-item">
+      <div class="file-info">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>{{ pdfFile.name }}</span>
+      </div>
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="pdfProgress"
+        [color]="getProgressColor(pdfStatus)">
+      </mat-progress-bar>
+      <div class="status" [ngClass]="'status-' + pdfStatus">
+        {{ getStatusText(pdfStatus) }}
+      </div>
+    </div>
+
+    <div class="overall-status">
+      <strong>{{ getOverallStatusText() }}</strong>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="closeDialog()" [disabled]="!isComplete()">
+      OK
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -34,6 +34,8 @@ export interface RecipeDto {
   sumCarbohydrates?: number;
   link?: string;
   description?: string;
+  hasImage?: boolean;
+  hasPdf?: boolean;
 }
 
 export interface DayDto {

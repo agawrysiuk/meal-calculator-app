@@ -4,6 +4,7 @@ import {DataService} from '../service/data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {AddItemFromListDialogComponent} from '../common/add-item-from-list-dialog/add-item-from-list-dialog.component';
+import {FileUploadModalComponent, FileUploadData} from '../common/file-upload-modal/file-upload-modal.component';
 
 @Component({
   selector: 'app-recipe-form',
@@ -29,6 +30,9 @@ export class RecipeFormComponent implements OnInit {
     description: '',
     itemsUsed: []
   };
+
+  selectedImage?: File;
+  selectedPdf?: File;
 
   constructor(
     private dataService: DataService, 
@@ -96,8 +100,8 @@ export class RecipeFormComponent implements OnInit {
     this.dataService.addRecipe(recipeData)
       .subscribe(
         (response) => {
-          this.dataService.updateRecipes()
-          this.router.navigate(['/recipes']);
+          this.dataService.updateRecipes();
+          this.handleFileUploads(response.id!);
         },
         (error) => {
           console.error('Error adding recipe:', error);
@@ -110,13 +114,37 @@ export class RecipeFormComponent implements OnInit {
     this.dataService.updateRecipe(recipeData)
       .subscribe(
         (response) => {
-          this.dataService.updateRecipes()
-          this.router.navigate(['/recipes']);
+          this.dataService.updateRecipes();
+          this.handleFileUploads(response.id!);
         },
         (error) => {
           console.error('Error updating recipe:', error);
         }
       );
+  }
+
+  private handleFileUploads(recipeId: string) {
+    if (this.selectedImage || this.selectedPdf) {
+      const uploadData: FileUploadData = {
+        recipeId: recipeId,
+        imageFile: this.selectedImage,
+        pdfFile: this.selectedPdf
+      };
+
+      const dialogRef = this.dialog.open(FileUploadModalComponent, {
+        width: '500px',
+        data: uploadData,
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(() => {
+        this.dataService.updateRecipes();
+        this.router.navigate(['/recipes']);
+      });
+    } else {
+      // No files to upload, navigate directly
+      this.router.navigate(['/recipes']);
+    }
   }
 
   openDialog() {
@@ -142,5 +170,27 @@ export class RecipeFormComponent implements OnInit {
     this.sumProtein -= Number(event.properties.protein);
     this.sumFat -= Number(event.properties.fat);
     this.sumCarbohydrates -= Number(event.properties.carbohydrates);
+  }
+
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+    }
+  }
+
+  onPdfSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedPdf = file;
+    }
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 }

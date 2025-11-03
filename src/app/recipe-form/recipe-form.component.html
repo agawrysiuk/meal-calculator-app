@@ -29,6 +29,22 @@
     <textarea matInput [(ngModel)]="recipe.description" name="description"></textarea>
   </mat-form-field>
   <br/>
+
+  <div style="margin: 16px 0;">
+    <mat-label style="display: block; margin-bottom: 8px; font-weight: 500;">Recipe Image (optional)</mat-label>
+    <input type="file" accept="image/*" (change)="onImageSelected($event)" #imageInput style="margin-bottom: 8px;">
+    <div *ngIf="selectedImage" style="color: #666; font-size: 14px;">
+      Selected: {{ selectedImage.name }} ({{ formatFileSize(selectedImage.size) }})
+    </div>
+  </div>
+
+  <div style="margin: 16px 0;">
+    <mat-label style="display: block; margin-bottom: 8px; font-weight: 500;">Recipe PDF (optional)</mat-label>
+    <input type="file" accept=".pdf" (change)="onPdfSelected($event)" #pdfInput style="margin-bottom: 8px;">
+    <div *ngIf="selectedPdf" style="color: #666; font-size: 14px;">
+      Selected: {{ selectedPdf.name }} ({{ formatFileSize(selectedPdf.size) }})
+    </div>
+  </div>
 </form>
   <button mat-flat-button (click)="openDialog()">
     <mat-icon>add</mat-icon>
