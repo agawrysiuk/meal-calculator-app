@@ -32,6 +32,10 @@ export interface RecipeDto {
   sumProtein?: number;
   sumFat?: number;
   sumCarbohydrates?: number;
+  caloriesPerServing?: number;
+  proteinPerServing?: number;
+  fatPerServing?: number;
+  carbohydratesPerServing?: number;
   link?: string;
   description?: string;
   hasImage?: boolean;
@@ -47,4 +51,23 @@ export interface MoveUsedItemDto {
   usedItemId: string;
   fromMealId: string;
   toMealId: string;
+}
+
+export interface CreateMealFromRecipeRequest {
+  recipeId: string;
+  servings: number;
+  mealDay: string;
+  mealName?: string;
+}
+
+export interface RecipeSearchFilters {
+  maxCaloriesPerServing?: number;
+  minCaloriesPerServing?: number;
+  maxProteinPerServing?: number;
+  minProteinPerServing?: number;
+  maxCarbsPerServing?: number;
+  minCarbsPerServing?: number;
+  maxFatPerServing?: number;
+  minFatPerServing?: number;
+  nameContains?: string;
 }

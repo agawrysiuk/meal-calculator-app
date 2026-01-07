@@ -67,10 +67,15 @@ export class RecipeFormComponent implements OnInit {
   }
 
   calculateSums() {
-    this.sumCalories = this.itemsUsed.reduce((sum, item) => sum + Number(item.properties.calories), 0);
-    this.sumProtein = this.itemsUsed.reduce((sum, item) => sum + Number(item.properties.protein), 0);
-    this.sumFat = this.itemsUsed.reduce((sum, item) => sum + Number(item.properties.fat), 0);
-    this.sumCarbohydrates = this.itemsUsed.reduce((sum, item) => sum + Number(item.properties.carbohydrates), 0);
+    // Calculate totals from per-100g properties and grams
+    this.sumCalories = this.itemsUsed.reduce((sum, item) =>
+      sum + (Number(item.grams) / 100) * Number(item.properties.calories), 0);
+    this.sumProtein = this.itemsUsed.reduce((sum, item) =>
+      sum + (Number(item.grams) / 100) * Number(item.properties.protein), 0);
+    this.sumFat = this.itemsUsed.reduce((sum, item) =>
+      sum + (Number(item.grams) / 100) * Number(item.properties.fat), 0);
+    this.sumCarbohydrates = this.itemsUsed.reduce((sum, item) =>
+      sum + (Number(item.grams) / 100) * Number(item.properties.carbohydrates), 0);
   }
 
   getTitle(): string {
@@ -156,20 +161,16 @@ export class RecipeFormComponent implements OnInit {
       if (result.name != "closeDialog") {
         this.itemsUsed.push(result);
         this.itemsUsed = [...this.itemsUsed];
-        this.sumCalories += Number(result.properties.calories);
-        this.sumProtein += Number(result.properties.protein);
-        this.sumFat += Number(result.properties.fat);
-        this.sumCarbohydrates += Number(result.properties.carbohydrates);
+        // Recalculate sums correctly using per-100g values
+        this.calculateSums();
       }
     });
   }
 
   catchItemToDelete(event: ItemUsedDto) {
     this.itemsUsed = this.itemsUsed.filter(obj => obj !== event);
-    this.sumCalories -= Number(event.properties.calories);
-    this.sumProtein -= Number(event.properties.protein);
-    this.sumFat -= Number(event.properties.fat);
-    this.sumCarbohydrates -= Number(event.properties.carbohydrates);
+    // Recalculate sums after deletion
+    this.calculateSums();
   }
 
   onImageSelected(event: any) {

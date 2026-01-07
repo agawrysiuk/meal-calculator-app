@@ -1,0 +1,57 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Filter Recipes
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
+    <div class="filter-section">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Recipe Name</mat-label>
+        <input matInput formControlName="nameContains" placeholder="Search by name">
+      </mat-form-field>
+    </div>
+
+    <h3>Calories per Serving</h3>
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Min</mat-label>
+        <input matInput type="number" formControlName="minCaloriesPerServing">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max</mat-label>
+        <input matInput type="number" formControlName="maxCaloriesPerServing">
+      </mat-form-field>
+    </div>
+
+    <h3>Protein per Serving (g)</h3>
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Min</mat-label>
+        <input matInput type="number" formControlName="minProteinPerServing">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max</mat-label>
+        <input matInput type="number" formControlName="maxProteinPerServing">
+      </mat-form-field>
+    </div>
+
+    <h3>Carbs per Serving (g)</h3>
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Min</mat-label>
+        <input matInput type="number" formControlName="minCarbsPerServing">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Max</mat-label>
+        <input matInput type="number" formControlName="maxCarbsPerServing">
+      </mat-form-field>
+    </div>
+
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" type="submit">Search</button>
+      <button mat-stroked-button type="button" (click)="onClear()">Clear</button>
+    </div>
+  </form>
+</mat-expansion-panel>

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {BasePropertiesPer100HundredGramDto, DayDto, ItemUsedDto, MealDto, MoveUsedItemDto, RecipeDto} from '../dto/dto';
-import {HttpClient} from '@angular/common/http';
+import {BasePropertiesPer100HundredGramDto, CreateMealFromRecipeRequest, DayDto, ItemUsedDto, MealDto, MoveUsedItemDto, RecipeDto, RecipeSearchFilters} from '../dto/dto';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {emptyBaseProperties, formatDate, sumDataFromMeals} from '../common/helper';
 
 @Injectable({
@@ -9,7 +9,7 @@ import {emptyBaseProperties, formatDate, sumDataFromMeals} from '../common/helpe
 })
 export class DataService {
 
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'http://localhost:9090';
   public items: BehaviorSubject<ItemUsedDto[]> = new BehaviorSubject<ItemUsedDto[]>([]);
   public recipes: BehaviorSubject<RecipeDto[]> = new BehaviorSubject<RecipeDto[]>([]);
   public today: BehaviorSubject<BasePropertiesPer100HundredGramDto> = new BehaviorSubject<BasePropertiesPer100HundredGramDto>(emptyBaseProperties());
@@ -60,6 +60,40 @@ export class DataService {
     return this.http.delete(this.baseUrl + '/api/recipe/' + id)
   }
 
+  searchRecipes(filters: RecipeSearchFilters): Observable<RecipeDto[]> {
+    let params = new HttpParams();
+
+    if (filters.maxCaloriesPerServing !== undefined) {
+      params = params.set('maxCaloriesPerServing', filters.maxCaloriesPerServing.toString());
+    }
+    if (filters.minCaloriesPerServing !== undefined) {
+      params = params.set('minCaloriesPerServing', filters.minCaloriesPerServing.toString());
+    }
+    if (filters.maxProteinPerServing !== undefined) {
+      params = params.set('maxProteinPerServing', filters.maxProteinPerServing.toString());
+    }
+    if (filters.minProteinPerServing !== undefined) {
+      params = params.set('minProteinPerServing', filters.minProteinPerServing.toString());
+    }
+    if (filters.maxCarbsPerServing !== undefined) {
+      params = params.set('maxCarbsPerServing', filters.maxCarbsPerServing.toString());
+    }
+    if (filters.minCarbsPerServing !== undefined) {
+      params = params.set('minCarbsPerServing', filters.minCarbsPerServing.toString());
+    }
+    if (filters.maxFatPerServing !== undefined) {
+      params = params.set('maxFatPerServing', filters.maxFatPerServing.toString());
+    }
+    if (filters.minFatPerServing !== undefined) {
+      params = params.set('minFatPerServing', filters.minFatPerServing.toString());
+    }
+    if (filters.nameContains) {
+      params = params.set('nameContains', filters.nameContains);
+    }
+
+    return this.http.get<RecipeDto[]>(this.baseUrl + '/api/recipe/search', { params });
+  }
+
   uploadRecipeImage(recipeId: string, file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
@@ -80,6 +114,10 @@ export class DataService {
     return this.http.post<MealDto>(this.baseUrl + '/api/meal', mealDto)
   }
 
+  addMealFromRecipe(request: CreateMealFromRecipeRequest): Observable<MealDto> {
+    return this.http.post<MealDto>(this.baseUrl + '/api/meal/from-recipe', request)
+  }
+
   deleteMeal(id: string): Observable<unknown> {
     return this.http.delete(this.baseUrl + '/api/meal/' + id)
   }
@@ -89,15 +127,15 @@ export class DataService {
   }
 
   moveItemFromMealToMeal(request: MoveUsedItemDto): Observable<unknown> {
-    return this.http.patch<unknown>(this.baseUrl + '/api/item-used/move', request)
+    return this.http.patch<unknown>(this.baseUrl + '/api/meal/items-used/move', request)
   }
 
-  deleteItemUsedFromMeal(id: string): Observable<unknown> {
-    return this.http.delete<unknown>(this.baseUrl + '/api/item-used/' + id)
+  deleteItemUsedFromMeal(mealId: string, itemId: string): Observable<unknown> {
+    return this.http.delete<unknown>(this.baseUrl + '/api/meal/' + mealId + '/items-used/' + itemId)
   }
 
-  editItem(item: ItemUsedDto): Observable<unknown> {
-    return this.http.put<unknown>(this.baseUrl + '/api/item-used/' + item.id, item)
+  editItem(mealId: string, item: ItemUsedDto): Observable<unknown> {
+    return this.http.put<unknown>(this.baseUrl + '/api/meal/' + mealId + '/items-used/' + item.id, item)
   }
 
   addItemToMeal(mealId: string, item: ItemUsedDto): Observable<unknown> {

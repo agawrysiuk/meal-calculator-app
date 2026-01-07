@@ -1,6 +1,8 @@
 <div class="flex-column text-center">
   <h1>Recipes</h1>
 
+  <app-recipe-search (search)="onSearch($event)"></app-recipe-search>
+
   <div class="recipe-card" *ngFor="let recipe of recipes | async">
     <h2>{{ recipe.name }}</h2>
 
@@ -26,10 +28,17 @@
         <mat-icon>picture_as_pdf</mat-icon>
         View PDF
       </button>
-      <app-add-to-day-button [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}" [servings]="recipe.servings" (actionMadeEmitter)="refreshDay($event)"></app-add-to-day-button>
+      <app-add-to-day-button [recipeId]="recipe.id" [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}" [servings]="recipe.servings" (actionMadeEmitter)="refreshDay($event)"></app-add-to-day-button>
     </div>
     <p>Servings: {{ recipe.servings }}</p>
-    <p><strong>Sum:</strong> {{ recipe.sumCalories }} kcal, protein: {{ recipe.sumProtein }} g, fat: {{ recipe.sumFat }} g,
+    <p *ngIf="recipe.caloriesPerServing">
+      <strong>Per Serving:</strong>
+      {{ recipe.caloriesPerServing | number:'1.0-0' }} kcal,
+      protein: {{ recipe.proteinPerServing | number:'1.0-0' }} g,
+      fat: {{ recipe.fatPerServing | number:'1.0-0' }} g,
+      carbs: {{ recipe.carbohydratesPerServing | number:'1.0-0' }} g
+    </p>
+    <p><strong>Total:</strong> {{ recipe.sumCalories }} kcal, protein: {{ recipe.sumProtein }} g, fat: {{ recipe.sumFat }} g,
       carbs: {{ recipe.sumCarbohydrates }} g</p>
     <p *ngIf="recipe.link"><a href="{{recipe.link}}" target="_blank">{{recipe.link}}</a> </p>
     <p *ngIf="recipe.description">{{recipe.description}}</p>

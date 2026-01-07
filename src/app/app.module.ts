@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOption} from '@angular/material/core';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ItemsComponent} from './items/items.component';
 import {DataService} from './service/data.service';
@@ -36,6 +37,7 @@ import {MealSearchableDropdownComponent} from './common/meals-searchable-dropdow
 import { MealFromListDialogComponent } from './common/meal-from-list-dialog/meal-from-list-dialog.component';
 import { PickStringDialogComponent } from './common/pick-string-dialog/pick-string-dialog.component';
 import { FileUploadModalComponent } from './common/file-upload-modal/file-upload-modal.component';
+import { RecipeSearchComponent } from './common/recipe-search/recipe-search.component';
 
 export function initData(dataService: DataService) {
   return () => dataService.init();
@@ -60,6 +62,7 @@ export function initData(dataService: DataService) {
     MealFromListDialogComponent,
     PickStringDialogComponent,
     FileUploadModalComponent,
+    RecipeSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +83,7 @@ export function initData(dataService: DataService) {
     MatProgressBarModule,
     MatSelect,
     MatOption,
+    MatExpansionModule,
   ],
   providers: [
     provideHttpClient(),

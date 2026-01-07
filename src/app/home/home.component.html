@@ -42,8 +42,8 @@
     </div>
     <app-items-table
       [items]="meal.itemsUsed"
-      [allowDeletion]="true" (itemToDeleteEmitter)="catchItemToDelete($event)"
-      [allowEdit]="true" (itemToEditEmitter)="catchItemToEdit($event)"
+      [allowDeletion]="true" (itemToDeleteEmitter)="catchItemToDelete($event, meal.id!)"
+      [allowEdit]="true" (itemToEditEmitter)="catchItemToEdit($event, meal.id!)"
       [allowMove]="true" (itemToMoveEmitter)="catchItemToMove($event, meal.id!)"
     ></app-items-table>
   </div>

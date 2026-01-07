@@ -75,13 +75,13 @@ export class HomeComponent {
     })
   }
 
-  catchItemToDelete($event: ItemUsedDto) {
-    this.dataService.deleteItemUsedFromMeal($event.id!).subscribe(response => {
+  catchItemToDelete($event: ItemUsedDto, mealId: string) {
+    this.dataService.deleteItemUsedFromMeal(mealId, $event.id!).subscribe(response => {
       this.update();
     })
   }
 
-  catchItemToEdit($event: ItemUsedDto) {
+  catchItemToEdit($event: ItemUsedDto, mealId: string) {
     const dialogRef = this.dialog.open(AddItemFromListDialogComponent, {
       width: '80vw',
       data: $event,
@@ -89,7 +89,7 @@ export class HomeComponent {
 
     dialogRef.afterClosed().subscribe((result?: ItemUsedDto) => {
       if (result && result.name != "closeDialog") {
-        this.dataService.editItem(result).subscribe(response => {
+        this.dataService.editItem(mealId, result).subscribe(response => {
           this.update();
         })
       }

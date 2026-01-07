@@ -14,25 +14,25 @@
   <!-- Calories Column -->
   <ng-container matColumnDef="Calories">
     <mat-header-cell *matHeaderCellDef> Calories</mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{ item.properties.calories }} kcal</mat-cell>
+    <mat-cell *matCellDef="let item"> {{ item.grams ? ((item.grams / 100) * item.properties.calories).toFixed(2) : item.properties.calories.toFixed(2) }} kcal</mat-cell>
   </ng-container>
 
   <!-- Protein Column -->
   <ng-container matColumnDef="Protein">
     <mat-header-cell *matHeaderCellDef> Protein</mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{ item.properties.protein }} g</mat-cell>
+    <mat-cell *matCellDef="let item"> {{ item.grams ? ((item.grams / 100) * item.properties.protein).toFixed(2) : item.properties.protein.toFixed(2) }} g</mat-cell>
   </ng-container>
 
   <!-- Fat Column -->
   <ng-container matColumnDef="Fat">
     <mat-header-cell *matHeaderCellDef> Fat</mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{ item.properties.fat }} g</mat-cell>
+    <mat-cell *matCellDef="let item"> {{ item.grams ? ((item.grams / 100) * item.properties.fat).toFixed(2) : item.properties.fat.toFixed(2) }} g</mat-cell>
   </ng-container>
 
   <!-- Carbohydrates Column -->
   <ng-container matColumnDef="Carbohydrates">
     <mat-header-cell *matHeaderCellDef> Carbohydrates</mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{ item.properties.carbohydrates }} g</mat-cell>
+    <mat-cell *matCellDef="let item"> {{ item.grams ? ((item.grams / 100) * item.properties.carbohydrates).toFixed(2) : item.properties.carbohydrates.toFixed(2) }} g</mat-cell>
   </ng-container>
 
   <!-- Edit Column -->

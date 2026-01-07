@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {DataService} from '../service/data.service';
-import {RecipeDto} from '../dto/dto';
+import {RecipeDto, RecipeSearchFilters} from '../dto/dto';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent, ConfirmationData} from '../common/confirmation-dialog/confirmation-dialog.component';
+import {formatDate} from '../common/helper';
 
 @Component({
   selector: 'app-recipes',
@@ -15,17 +16,30 @@ import {ConfirmationDialogComponent, ConfirmationData} from '../common/confirmat
 export class RecipesComponent {
 
   recipes: Observable<RecipeDto[]>;
+  isSearching: boolean = false;
 
   constructor(private dataService: DataService, private dialog: MatDialog) {
     this.recipes = this.dataService.recipes.asObservable();
   }
 
+  onSearch(filters: RecipeSearchFilters) {
+    if (Object.keys(filters).length === 0) {
+      // No filters - show all recipes
+      this.recipes = this.dataService.recipes.asObservable();
+      this.isSearching = false;
+    } else {
+      // Apply filters
+      this.recipes = this.dataService.searchRecipes(filters);
+      this.isSearching = true;
+    }
+  }
+
   getImageUrl(recipeId: string): string {
-    return `http://localhost:8080/api/recipe/${recipeId}/image`;
+    return `http://localhost:9090/api/recipe/${recipeId}/image`;
   }
 
   getPdfUrl(recipeId: string): string {
-    return `http://localhost:8080/api/recipe/${recipeId}/pdf`;
+    return `http://localhost:9090/api/recipe/${recipeId}/pdf`;
   }
 
   openPdf(recipeId: string): void {
@@ -38,7 +52,7 @@ export class RecipesComponent {
   }
 
   refreshDay($event: { fromDate?: Date; toDate: Date }) {
-    if ($event.toDate == new Date()) {
+    if (formatDate($event.toDate) == formatDate(new Date())) {
       this.dataService.updateToday();
     }
   }

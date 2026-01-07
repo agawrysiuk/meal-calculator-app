@@ -38,7 +38,7 @@ export class AddItemFromListDialogComponent {
       && data.properties.fat
       && data.properties.protein) {
       this.editMode = true;
-      this.chosenItem = this.items.find(item => data.name == item.name);
+      this.chosenItem = this.items.find(item => data.id == item.id);
     }
     this.buttonText = this.editMode ? 'Edit Item' : 'Add Item'
     this.form = this.formBuilder.group({
@@ -53,19 +53,28 @@ export class AddItemFromListDialogComponent {
     this.form.controls["grams"].valueChanges.subscribe(value => {
       this.updateForGramsChanging()
     });
+
+    // In edit mode, convert per-100g values to totals for display
+    if (this.editMode && this.chosenItem) {
+      this.updateForGramsChanging();
+    }
   }
 
   submit() {
     if (this.form.valid && this.chosenItem) {
+      const grams = this.form.controls["grams"].value;
+
+      // IMPORTANT: properties must contain per-100g values, not totals
+      // The form shows totals for user convenience, but we need to convert back to per-100g
       const newItem: ItemUsedDto = {
-        id: this.injectedData?.id,
+        id: this.chosenItem?.id || this.injectedData?.id,
         name: this.form.controls["name"].value,
-        grams: this.form.controls["grams"].value,
+        grams: grams,
         properties: {
-          calories: this.form.controls["calories"].value,
-          protein: this.form.controls["protein"].value,
-          fat: this.form.controls["fat"].value,
-          carbohydrates: this.form.controls["carbohydrates"].value
+          calories: Number(((this.form.controls["calories"].value / grams) * 100).toFixed(2)),
+          protein: Number(((this.form.controls["protein"].value / grams) * 100).toFixed(2)),
+          fat: Number(((this.form.controls["fat"].value / grams) * 100).toFixed(2)),
+          carbohydrates: Number(((this.form.controls["carbohydrates"].value / grams) * 100).toFixed(2))
         }
       };
       this.dialogRef.close(newItem);

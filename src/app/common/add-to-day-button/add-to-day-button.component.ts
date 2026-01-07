@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DataService} from '../../service/data.service';
-import {ItemUsedDto, MealDto} from '../../dto/dto';
+import {CreateMealFromRecipeRequest, ItemUsedDto, MealDto} from '../../dto/dto';
 import {formatDate} from '../helper';
 import {MatDialog} from '@angular/material/dialog';
 import {PickDateDialogComponent} from '../pick-date-dialog/pick-date-dialog.component';
@@ -18,6 +18,7 @@ export class AddToDayButtonComponent {
   @Input() onlyEmit: Boolean = false;
   @Input() buttonText: string = 'Add to day...';
   @Input() servings: number = 1;
+  @Input() recipeId?: string;
   @Output() actionMadeEmitter: EventEmitter<{ fromDate?: Date, toDate: Date }> = new EventEmitter<{
     fromDate?: Date,
     toDate: Date
@@ -31,18 +32,35 @@ export class AddToDayButtonComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result instanceof Date) {
-        const meal: MealDto = {
-          mealDay: formatDate(result),
-          name: this.toAdd.name,
-          itemsUsed: this.divideItemsUsedByServings(this.toAdd.itemsUsed)
-        }
         if (!this.onlyEmit) {
-          this.dataService.addMeal(meal).subscribe(response => {
-            if (result == new Date()) {
-              this.dataService.updateToday()
+          // NEW: If recipeId provided, use new endpoint
+          if (this.recipeId) {
+            const request: CreateMealFromRecipeRequest = {
+              recipeId: this.recipeId,
+              servings: 1, // TODO: in the  future, we can add serving sizes;
+              mealDay: formatDate(result),
+              mealName: this.toAdd.name
+            };
+            this.dataService.addMealFromRecipe(request).subscribe(response => {
+              if (formatDate(result) == formatDate(new Date())) {
+                this.dataService.updateToday()
+              }
+              this.actionMadeEmitter.emit({toDate: result})
+            });
+          } else {
+            // OLD: Generic items - use existing flow
+            const meal: MealDto = {
+              mealDay: formatDate(result),
+              name: this.toAdd.name,
+              itemsUsed: this.divideItemsUsedByServings(this.toAdd.itemsUsed)
             }
-            this.actionMadeEmitter.emit({toDate: result})
-          })
+            this.dataService.addMeal(meal).subscribe(response => {
+              if (formatDate(result) == formatDate(new Date())) {
+                this.dataService.updateToday()
+              }
+              this.actionMadeEmitter.emit({toDate: result})
+            });
+          }
         } else {
           this.actionMadeEmitter.emit({fromDate: this.toAdd.fromDate, toDate: result})
         }
