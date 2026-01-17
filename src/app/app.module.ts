@@ -38,6 +38,9 @@ import { MealFromListDialogComponent } from './common/meal-from-list-dialog/meal
 import { PickStringDialogComponent } from './common/pick-string-dialog/pick-string-dialog.component';
 import { FileUploadModalComponent } from './common/file-upload-modal/file-upload-modal.component';
 import { RecipeSearchComponent } from './common/recipe-search/recipe-search.component';
+import { NutritionRingsComponent } from './common/nutrition-rings/nutrition-rings.component';
+import { MacroPillsComponent } from './common/macro-pills/macro-pills.component';
+import { CreateMealDialogComponent } from './common/create-meal-dialog/create-meal-dialog.component';
 
 export function initData(dataService: DataService) {
   return () => dataService.init();
@@ -63,6 +66,9 @@ export function initData(dataService: DataService) {
     PickStringDialogComponent,
     FileUploadModalComponent,
     RecipeSearchComponent,
+    NutritionRingsComponent,
+    MacroPillsComponent,
+    CreateMealDialogComponent,
   ],
   imports: [
     BrowserModule,

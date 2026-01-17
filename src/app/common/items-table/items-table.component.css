@@ -1,65 +1,189 @@
+/* ============================================
+   ITEMS TABLE STYLING
+   ============================================ */
+
 mat-table {
-  background: #f8f9fa;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  margin-top: 16px;
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  margin-top: 0;
+  width: 100%;
 }
 
+/* Header Row */
 mat-header-row {
-  background: #e9ecef;
-  font-weight: 600;
+  background: var(--color-bg-primary);
+  min-height: 56px;
+  border-bottom: 2px solid var(--color-border-medium);
 }
 
 mat-header-cell {
-  color: #495057;
-  font-weight: 600;
-  border-bottom: 1px solid #dee2e6;
-  padding: 12px 8px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-primary);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: var(--space-md) var(--space-sm);
+  border-bottom: none;
 }
 
+/* Data Rows */
 mat-row {
-  transition: background-color 0.2s ease;
+  min-height: 56px;
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--color-border);
 }
 
 mat-row:hover {
-  background-color: #f1f3f4;
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-sm);
 }
 
-mat-row:nth-child(even) {
-  background-color: #ffffff;
+mat-row:last-child {
+  border-bottom: none;
 }
 
-mat-row:nth-child(odd) {
-  background-color: #f8f9fa;
-}
-
+/* Cells */
 mat-cell {
-  color: #212529;
-  padding: 12px 8px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-mat-cell:last-child,
-mat-header-cell:last-child {
-  padding-right: 16px;
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  padding: var(--space-md) var(--space-sm);
+  border-bottom: none;
 }
 
 mat-cell:first-child,
 mat-header-cell:first-child {
-  padding-left: 16px;
+  padding-left: var(--space-lg);
+  font-weight: var(--font-medium);
 }
 
-/* Action icons styling */
+mat-cell:last-child,
+mat-header-cell:last-child {
+  padding-right: var(--space-lg);
+}
+
+/* Numeric values */
+mat-cell:not(:first-child):not(:last-child) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Action Icons */
 mat-cell .material-icons {
-  color: #6c757d;
-  transition: color 0.2s ease;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 mat-cell .material-icons:hover {
-  color: #495057;
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+mat-cell[style*="cursor: pointer"] {
+  cursor: pointer;
 }
 
 mat-cell[style*="cursor: pointer"]:hover .material-icons {
-  color: #007bff;
+  color: var(--color-primary);
+}
+
+/* Edit Icon */
+mat-cell .material-icons:contains("edit"):hover {
+  color: var(--color-secondary);
+}
+
+/* Delete Icon */
+mat-cell .material-icons:contains("delete"):hover {
+  color: var(--color-error);
+}
+
+/* Move Icon */
+mat-cell .material-icons:contains("swap_horiz"):hover {
+  color: var(--color-accent-golden);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet and Mobile */
+@media (max-width: 1023px) {
+  mat-header-cell,
+  mat-cell {
+    font-size: var(--text-sm);
+    padding: var(--space-sm) var(--space-xs);
+  }
+
+  mat-cell:first-child,
+  mat-header-cell:first-child {
+    padding-left: var(--space-md);
+  }
+
+  mat-cell:last-child,
+  mat-header-cell:last-child {
+    padding-right: var(--space-md);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  mat-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  mat-header-row,
+  mat-row {
+    min-width: 600px;
+  }
+
+  mat-header-cell,
+  mat-cell {
+    font-size: var(--text-xs);
+    padding: var(--space-xs);
+  }
+
+  mat-cell:first-child,
+  mat-header-cell:first-child {
+    padding-left: var(--space-sm);
+  }
+
+  mat-cell:last-child,
+  mat-header-cell:last-child {
+    padding-right: var(--space-sm);
+  }
+
+  mat-cell .material-icons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  mat-row {
+    break-inside: avoid;
+  }
+
+  mat-cell .material-icons {
+    display: none;
+  }
+
+  mat-header-row {
+    background: #f0f0f0 !important;
+  }
+
+  mat-row:hover {
+    background-color: transparent;
+  }
 }

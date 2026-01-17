@@ -4,12 +4,13 @@ import {BasePropertiesPer100HundredGramDto, CreateMealFromRecipeRequest, DayDto,
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {emptyBaseProperties, formatDate, sumDataFromMeals} from '../common/helper';
 
+export const baseUrl = `http://${window.location.hostname}:9090`;
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private baseUrl = 'http://localhost:9090';
   public items: BehaviorSubject<ItemUsedDto[]> = new BehaviorSubject<ItemUsedDto[]>([]);
   public recipes: BehaviorSubject<RecipeDto[]> = new BehaviorSubject<RecipeDto[]>([]);
   public today: BehaviorSubject<BasePropertiesPer100HundredGramDto> = new BehaviorSubject<BasePropertiesPer100HundredGramDto>(emptyBaseProperties());
@@ -24,14 +25,14 @@ export class DataService {
   }
 
   updateItems() {
-    this.http.get<ItemUsedDto[]>(this.baseUrl + '/api/item')
+    this.http.get<ItemUsedDto[]>(baseUrl + '/api/item')
       .subscribe(response => {
         this.items.next(response.sort((a, b) => a.name.localeCompare(b.name)));
       })
   }
 
   updateRecipes() {
-    this.http.get<RecipeDto[]>(this.baseUrl + '/api/recipe')
+    this.http.get<RecipeDto[]>(baseUrl + '/api/recipe')
       .subscribe(response => {
         this.recipes.next(response);
       })
@@ -45,19 +46,19 @@ export class DataService {
   }
 
   addItem(newItem: ItemUsedDto): Observable<ItemUsedDto> {
-    return this.http.post<ItemUsedDto>(this.baseUrl + '/api/item', newItem)
+    return this.http.post<ItemUsedDto>(baseUrl + '/api/item', newItem)
   }
 
   addRecipe(newItem: RecipeDto): Observable<RecipeDto> {
-    return this.http.post<RecipeDto>(this.baseUrl + '/api/recipe', newItem)
+    return this.http.post<RecipeDto>(baseUrl + '/api/recipe', newItem)
   }
 
   updateRecipe(recipe: RecipeDto): Observable<RecipeDto> {
-    return this.http.put<RecipeDto>(this.baseUrl + '/api/recipe/' + recipe.id, recipe)
+    return this.http.put<RecipeDto>(baseUrl + '/api/recipe/' + recipe.id, recipe)
   }
 
   deleteRecipe(id: string): Observable<unknown> {
-    return this.http.delete(this.baseUrl + '/api/recipe/' + id)
+    return this.http.delete(baseUrl + '/api/recipe/' + id)
   }
 
   searchRecipes(filters: RecipeSearchFilters): Observable<RecipeDto[]> {
@@ -91,58 +92,58 @@ export class DataService {
       params = params.set('nameContains', filters.nameContains);
     }
 
-    return this.http.get<RecipeDto[]>(this.baseUrl + '/api/recipe/search', { params });
+    return this.http.get<RecipeDto[]>(baseUrl + '/api/recipe/search', { params });
   }
 
   uploadRecipeImage(recipeId: string, file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post(this.baseUrl + '/api/recipe/' + recipeId + '/image', formData, { responseType: 'text' })
+    return this.http.post(baseUrl + '/api/recipe/' + recipeId + '/image', formData, { responseType: 'text' })
   }
 
   uploadRecipePdf(recipeId: string, file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post(this.baseUrl + '/api/recipe/' + recipeId + '/pdf', formData, { responseType: 'text' })
+    return this.http.post(baseUrl + '/api/recipe/' + recipeId + '/pdf', formData, { responseType: 'text' })
   }
 
   getMeals(date: Date): Observable<DayDto> {
-    return this.http.get<DayDto>(this.baseUrl + '/api/day?date=' + formatDate(date))
+    return this.http.get<DayDto>(baseUrl + '/api/day?date=' + formatDate(date))
   }
 
   addMeal(mealDto: MealDto): Observable<MealDto> {
-    return this.http.post<MealDto>(this.baseUrl + '/api/meal', mealDto)
+    return this.http.post<MealDto>(baseUrl + '/api/meal', mealDto)
   }
 
   addMealFromRecipe(request: CreateMealFromRecipeRequest): Observable<MealDto> {
-    return this.http.post<MealDto>(this.baseUrl + '/api/meal/from-recipe', request)
+    return this.http.post<MealDto>(baseUrl + '/api/meal/from-recipe', request)
   }
 
   deleteMeal(id: string): Observable<unknown> {
-    return this.http.delete(this.baseUrl + '/api/meal/' + id)
+    return this.http.delete(baseUrl + '/api/meal/' + id)
   }
 
   copyToDate(fromDate: Date, toDate: Date): Observable<DayDto> {
-    return this.http.post<DayDto>(this.baseUrl + '/api/day?fromDate=' + formatDate(fromDate) + '&toDate=' + formatDate(toDate), null)
+    return this.http.post<DayDto>(baseUrl + '/api/day?fromDate=' + formatDate(fromDate) + '&toDate=' + formatDate(toDate), null)
   }
 
   moveItemFromMealToMeal(request: MoveUsedItemDto): Observable<unknown> {
-    return this.http.patch<unknown>(this.baseUrl + '/api/meal/items-used/move', request)
+    return this.http.patch<unknown>(baseUrl + '/api/meal/items-used/move', request)
   }
 
   deleteItemUsedFromMeal(mealId: string, itemId: string): Observable<unknown> {
-    return this.http.delete<unknown>(this.baseUrl + '/api/meal/' + mealId + '/items-used/' + itemId)
+    return this.http.delete<unknown>(baseUrl + '/api/meal/' + mealId + '/items-used/' + itemId)
   }
 
   editItem(mealId: string, item: ItemUsedDto): Observable<unknown> {
-    return this.http.put<unknown>(this.baseUrl + '/api/meal/' + mealId + '/items-used/' + item.id, item)
+    return this.http.put<unknown>(baseUrl + '/api/meal/' + mealId + '/items-used/' + item.id, item)
   }
 
   addItemToMeal(mealId: string, item: ItemUsedDto): Observable<unknown> {
-    return this.http.post<unknown>(this.baseUrl + '/api/meal/' + mealId + '/items-used', item)
+    return this.http.post<unknown>(baseUrl + '/api/meal/' + mealId + '/items-used', item)
   }
 
   renameMeal(mealId: string, newName: string): Observable<unknown> {
-    return this.http.put<unknown>(this.baseUrl + '/api/meal/' + mealId + '/name', newName)
+    return this.http.put<unknown>(baseUrl + '/api/meal/' + mealId + '/name', newName)
   }
 }

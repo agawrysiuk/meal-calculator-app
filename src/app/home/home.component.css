@@ -1,13 +1,460 @@
-mat-form-field {
-  margin-top: 20px;
+/* ============================================
+   HOME PAGE CONTAINER
+   ============================================ */
+
+.home-container {
+  max-width: var(--max-width-xl);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  min-height: calc(100vh - var(--navbar-height));
 }
 
-h1 {
-  margin-bottom: 20px;
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero-section {
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
-.meal {
-  margin-bottom: 40px;
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2xl);
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+/* Date Section */
+.date-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.page-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--leading-tight);
+}
+
+.date-picker {
+  max-width: 300px;
+}
+
+/* Nutrition Display */
+.nutrition-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.daily-summary-pills {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.quick-actions button {
+  min-width: 140px;
+}
+
+/* ============================================
+   MEALS SECTION
+   ============================================ */
+
+.meals-section {
+  margin-top: var(--space-2xl);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.meal-count {
+  font-size: var(--text-sm);
+  padding: 6px 14px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-lg);
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.empty-state p {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xl);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
+   MEALS GRID
+   ============================================ */
+
+.meals-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Meal Card */
+.meal-card {
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-base);
   position: relative;
-  display: block;
+  overflow: hidden;
+}
+
+.meal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent-golden));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.meal-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.meal-card:hover::before {
+  opacity: 1;
+}
+
+/* Meal Header */
+.meal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.meal-title-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-grow: 1;
+}
+
+.meal-name {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--leading-tight);
+}
+
+.edit-name-btn {
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.meal-title-section:hover .edit-name-btn {
+  opacity: 1;
+}
+
+.edit-name-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-secondary);
+}
+
+/* Meal Actions */
+.meal-actions {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.meal-actions button {
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.meal-actions button:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+}
+
+.delete-btn:hover {
+  color: var(--color-error) !important;
+  background: var(--color-error-light) !important;
+}
+
+/* Meal Summary */
+.meal-summary {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: center;
+}
+
+/* Meal Items */
+.meal-items {
+  margin-top: var(--space-lg);
+}
+
+/* Mobile Actions */
+.meal-actions-mobile {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.meal-actions-mobile button {
+  flex: 1;
+  font-size: var(--text-sm);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .home-container {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .hero-section {
+    padding: var(--space-xl);
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .nutrition-display {
+    width: 100%;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+  .home-container {
+    padding: var(--space-md);
+  }
+
+  .hero-section {
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-content {
+    gap: var(--space-lg);
+  }
+
+  .page-title {
+    font-size: var(--text-2xl);
+  }
+
+  .date-picker {
+    max-width: 100%;
+  }
+
+  .nutrition-display app-nutrition-rings {
+    transform: scale(0.9);
+  }
+
+  .daily-summary-pills app-macro-pills {
+    width: 100%;
+  }
+
+  .quick-actions {
+    width: 100%;
+  }
+
+  .quick-actions button {
+    flex: 1;
+    min-width: auto;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .section-title {
+    font-size: var(--text-xl);
+  }
+
+  .meal-card {
+    padding: var(--space-lg);
+  }
+
+  .meal-header {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .meal-title-section {
+    width: 100%;
+  }
+
+  .meal-name {
+    font-size: var(--text-xl);
+  }
+
+  .edit-name-btn {
+    opacity: 1; /* Always visible on mobile */
+  }
+
+  .meal-summary {
+    padding: var(--space-sm);
+  }
+
+  .meal-summary app-macro-pills {
+    width: 100%;
+  }
+
+  .empty-state {
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .empty-icon {
+    font-size: 48px;
+  }
+
+  .empty-state h3 {
+    font-size: var(--text-xl);
+  }
+
+  .empty-state p {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Mobile Small (< 480px) */
+@media (max-width: 479px) {
+  .hero-section {
+    padding: var(--space-md);
+  }
+
+  .page-title {
+    font-size: var(--text-xl);
+  }
+
+  .nutrition-display app-nutrition-rings {
+    transform: scale(0.8);
+  }
+
+  .daily-summary-pills app-macro-pills ::ng-deep .macro-pills-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .meal-card {
+    padding: var(--space-md);
+  }
+
+  .meal-name {
+    font-size: var(--text-lg);
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.meals-grid .meal-card {
+  animation: staggerIn 0.4s ease-out backwards;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .hero-section {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .quick-actions,
+  .meal-actions,
+  .meal-actions-mobile,
+  .edit-name-btn {
+    display: none !important;
+  }
+
+  .meal-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    margin-bottom: var(--space-md);
+  }
 }

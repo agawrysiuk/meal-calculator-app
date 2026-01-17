@@ -1,0 +1,159 @@
+/* ============================================
+   ITEMS PAGE CONTAINER
+   ============================================ */
+
+.items-container {
+  max-width: var(--max-width-xl);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.header-content {
+  flex-grow: 1;
+}
+
+.page-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.page-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.header-actions button {
+  min-width: 160px;
+}
+
+/* ============================================
+   ITEMS TABLE CONTAINER
+   ============================================ */
+
+.items-table-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.items-table-container app-items-table {
+  display: block;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  margin-top: var(--space-2xl);
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-lg);
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.empty-state p {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xl);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .items-container {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .page-title {
+    font-size: var(--text-3xl);
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+  .items-container {
+    padding: var(--space-md);
+  }
+
+  .items-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .header-actions button {
+    width: 100%;
+  }
+
+  .page-title {
+    font-size: var(--text-2xl);
+  }
+
+  .page-subtitle {
+    font-size: var(--text-base);
+  }
+
+  .empty-state {
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .empty-icon {
+    font-size: 48px;
+  }
+
+  .empty-state h3 {
+    font-size: var(--text-xl);
+  }
+
+  .empty-state p {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Mobile Small (< 480px) */
+@media (max-width: 479px) {
+  .page-title {
+    font-size: var(--text-xl);
+  }
+}

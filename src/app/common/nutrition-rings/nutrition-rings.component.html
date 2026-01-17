@@ -1,0 +1,61 @@
+<div class="nutrition-rings-container">
+  <svg
+    [attr.width]="svgSize"
+    [attr.height]="svgSize"
+    [attr.viewBox]="'0 0 ' + svgSize + ' ' + svgSize"
+    class="nutrition-rings-svg"
+  >
+    <!-- Background circles -->
+    <g *ngFor="let ring of rings" class="ring-group">
+      <circle
+        [attr.cx]="centerX"
+        [attr.cy]="centerY"
+        [attr.r]="ring.radius"
+        [attr.stroke-width]="ring.strokeWidth"
+        class="ring-background"
+      />
+      <!-- Progress circle -->
+      <circle
+        [attr.cx]="centerX"
+        [attr.cy]="centerY"
+        [attr.r]="ring.radius"
+        [attr.stroke-width]="ring.strokeWidth"
+        [attr.stroke]="ring.color"
+        [attr.stroke-dasharray]="getCircumference(ring.radius)"
+        [attr.stroke-dashoffset]="getStrokeDashoffset(ring)"
+        class="ring-progress"
+        [class.ring-animated]="true"
+      />
+    </g>
+
+    <!-- Center text -->
+    <text
+      [attr.x]="centerX"
+      [attr.y]="centerY - 5"
+      class="ring-center-value"
+      text-anchor="middle"
+      dominant-baseline="middle"
+    >
+      {{ calories }}
+    </text>
+    <text
+      [attr.x]="centerX"
+      [attr.y]="centerY + 15"
+      class="ring-center-label"
+      text-anchor="middle"
+      dominant-baseline="middle"
+    >
+      kcal
+    </text>
+  </svg>
+
+  <!-- Legend (optional) -->
+  <div *ngIf="showLabels" class="nutrition-rings-legend">
+    <div *ngFor="let ring of rings" class="legend-item">
+      <div class="legend-color" [style.background-color]="ring.color"></div>
+      <span class="legend-label">{{ ring.label }}</span>
+      <span class="legend-value">{{ ring.value }} / {{ ring.max }}</span>
+      <span class="legend-percentage">{{ getPercentage(ring) }}%</span>
+    </div>
+  </div>
+</div>

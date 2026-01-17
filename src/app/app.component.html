@@ -1,25 +1,59 @@
-<mat-toolbar class="flex-row flex-space-between display-flex position-fixed-top-left">
-  <div class="router-links">
-    <a mat-button routerLink="/">Home</a>
-    <a mat-button routerLink="/items">Items</a>
-    <a mat-button routerLink="/recipes">Recipes</a>
-    <a mat-button routerLink="/add-recipe">Add recipe</a>
-  </div>
-  <div *ngIf="today" style="font-size: 14px; color: white" class="display-flex flex-row today-calories">
-    <div><strong>{{todaysDate}}</strong></div>
-    <div>{{today.calories}} kcal</div>
-    <div>{{today.protein}} protein</div>
-    <div>{{today.fat}} fat</div>
-    <div>{{today.carbohydrates}} carbs</div>
-  </div>
+<mat-toolbar class="app-navbar position-fixed-top-left">
+  <div class="navbar-content">
+    <div class="navbar-left">
+      <a routerLink="/" class="app-logo">
+        <span class="logo-icon">🥗</span>
+        <span class="logo-text font-display">Meal Counter</span>
+      </a>
 
-<!--  &lt;!&ndash; Menu for additional options &ndash;&gt;-->
-<!--  <button mat-button [matMenuTriggerFor]="menu">More</button>-->
-<!--  <mat-menu #menu="matMenu">-->
-<!--    <button mat-menu-item routerLink="/services">Services</button>-->
-<!--    <button mat-menu-item routerLink="/team">Team</button>-->
-<!--    <button mat-menu-item routerLink="/faq">FAQ</button>-->
-<!--  </mat-menu>-->
+      <!-- Desktop Navigation -->
+      <nav class="nav-links hide-mobile">
+        <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Today</a>
+        <a mat-button routerLink="/recipes" routerLinkActive="active-link">Recipes</a>
+        <a mat-button routerLink="/items" routerLinkActive="active-link">Items</a>
+        <a mat-button routerLink="/add-recipe" routerLinkActive="active-link">Add Recipe</a>
+      </nav>
+
+      <!-- Mobile Hamburger Menu -->
+      <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="hamburger-button hide-tablet-up">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #mobileMenu="matMenu" class="mobile-nav-menu">
+        <a mat-menu-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>home</mat-icon>
+          <span>Today</span>
+        </a>
+        <a mat-menu-item routerLink="/recipes" routerLinkActive="active-link">
+          <mat-icon>restaurant</mat-icon>
+          <span>Recipes</span>
+        </a>
+        <a mat-menu-item routerLink="/items" routerLinkActive="active-link">
+          <mat-icon>shopping_basket</mat-icon>
+          <span>Items</span>
+        </a>
+        <a mat-menu-item routerLink="/add-recipe" routerLinkActive="active-link">
+          <mat-icon>add_circle</mat-icon>
+          <span>Add Recipe</span>
+        </a>
+      </mat-menu>
+    </div>
+
+    <div *ngIf="today" class="navbar-right">
+      <div class="today-summary">
+        <span class="today-date hide-mobile">{{ todaysDate }}</span>
+        <app-macro-pills
+          [calories]="today.calories"
+          [protein]="today.protein"
+          [carbs]="today.carbohydrates"
+          [fat]="today.fat"
+          size="small"
+          [showLabels]="true"
+        ></app-macro-pills>
+      </div>
+    </div>
+  </div>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

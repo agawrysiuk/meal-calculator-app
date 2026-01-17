@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {AddItemFromListDialogComponent} from '../common/add-item-from-list-dialog/add-item-from-list-dialog.component';
 import {MealFromListDialogComponent} from '../common/meal-from-list-dialog/meal-from-list-dialog.component';
 import {PickStringDialogComponent} from '../common/pick-string-dialog/pick-string-dialog.component';
+import {CreateMealDialogComponent} from '../common/create-meal-dialog/create-meal-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -30,41 +31,43 @@ export class HomeComponent {
     })
   }
 
-  openAddItemFromListDialog(mealId: string | undefined = undefined) {
+  openCreateMealDialog() {
+    const dialogRef = this.dialog.open(CreateMealDialogComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((mealName?: string) => {
+      if (mealName) {
+        this.createEmptyMeal(mealName)
+      }
+    });
+  }
+
+  createEmptyMeal(name: string) {
+    const meal: MealDto = {
+      mealDay: formatDate(this.selectedDate),
+      name: name,
+      itemsUsed: []
+    }
+    this.dataService.addMeal(meal).subscribe(response => {
+      this.update();
+    })
+  }
+
+  openAddItemFromListDialog(mealId: string) {
     const dialogRef = this.dialog.open(AddItemFromListDialogComponent, {
       width: '80vw',
     });
 
     dialogRef.afterClosed().subscribe((result?: ItemUsedDto) => {
       if (result && result.name != "closeDialog") {
-        if (mealId && mealId != "") {
-          this.addItemToMeal(mealId, result)
-        } else {
-          this.createNewMeal(result)
-        }
+        this.addItemToMeal(mealId, result)
       }
     });
   }
 
   private addItemToMeal(mealId: string, result: ItemUsedDto) {
     this.dataService.addItemToMeal(mealId, result).subscribe(response => {
-      this.update();
-    })
-  }
-
-  private createNewMeal(result: ItemUsedDto) {
-    const meal: MealDto = {
-      mealDay: formatDate(this.selectedDate),
-      name: result.name,
-      itemsUsed: [
-        {
-          name: result.name,
-          grams: result.grams,
-          properties: result.properties,
-        }
-      ]
-    }
-    this.dataService.addMeal(meal).subscribe(response => {
       this.update();
     })
   }

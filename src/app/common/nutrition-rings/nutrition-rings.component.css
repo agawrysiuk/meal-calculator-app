@@ -1,0 +1,115 @@
+.nutrition-rings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.nutrition-rings-svg {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
+/* Ring styling */
+.ring-background {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-linecap: round;
+}
+
+.ring-progress {
+  fill: none;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ring-animated {
+  animation: ringFillAnimation 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes ringFillAnimation {
+  from {
+    stroke-dashoffset: var(--ring-circumference, 0);
+  }
+  to {
+    stroke-dashoffset: var(--ring-offset, 0);
+  }
+}
+
+/* Center text */
+.ring-center-value {
+  font-family: var(--font-primary);
+  font-size: 28px;
+  font-weight: var(--font-bold);
+  fill: var(--color-text-primary);
+}
+
+.ring-center-label {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  fill: var(--color-text-secondary);
+}
+
+/* Legend */
+.nutrition-rings-legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+  max-width: 300px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.legend-item:hover {
+  background: var(--color-bg-primary);
+  transform: translateX(4px);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  flex-grow: 1;
+}
+
+.legend-value {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.legend-percentage {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  min-width: 45px;
+  text-align: right;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .ring-center-value {
+    font-size: 20px;
+  }
+
+  .ring-center-label {
+    font-size: 12px;
+  }
+}

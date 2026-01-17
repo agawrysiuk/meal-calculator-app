@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DataService} from '../service/data.service';
+import {baseUrl, DataService} from '../service/data.service';
 import {RecipeDto, RecipeSearchFilters} from '../dto/dto';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
@@ -35,11 +35,11 @@ export class RecipesComponent {
   }
 
   getImageUrl(recipeId: string): string {
-    return `http://localhost:9090/api/recipe/${recipeId}/image`;
+    return `${baseUrl}/api/recipe/${recipeId}/image`;
   }
 
   getPdfUrl(recipeId: string): string {
-    return `http://localhost:9090/api/recipe/${recipeId}/pdf`;
+    return `${baseUrl}/api/recipe/${recipeId}/pdf`;
   }
 
   openPdf(recipeId: string): void {

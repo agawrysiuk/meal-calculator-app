@@ -1,48 +1,143 @@
-<div class="flex-column text-center">
-  <h1>Recipes</h1>
-
-  <app-recipe-search (search)="onSearch($event)"></app-recipe-search>
-
-  <div class="recipe-card" *ngFor="let recipe of recipes | async">
-    <h2>{{ recipe.name }}</h2>
-
-    <!-- Recipe Image -->
-    <div *ngIf="recipe.hasImage" class="recipe-image-container">
-      <img [src]="getImageUrl(recipe.id!)"
-           [alt]="recipe.name"
-           loading="lazy"
-           class="recipe-image"
-           (error)="handleImageError($event)">
+<div class="recipes-container">
+  <!-- Header Section -->
+  <div class="recipes-header animate-fade-in">
+    <div class="header-content">
+      <h1 class="page-title font-display">Recipe Collection</h1>
+      <p class="page-subtitle">Discover and manage your healthy recipes</p>
     </div>
 
-    <div class="recipe-actions">
-      <button mat-flat-button [routerLink]="['/edit-recipe', recipe.id]" class="edit-button">
-        <mat-icon>edit</mat-icon>
-        Edit
+    <div class="header-actions">
+      <button mat-flat-button class="btn btn-primary" routerLink="/add-recipe">
+        <mat-icon>add_circle</mat-icon>
+        <span>New Recipe</span>
       </button>
-      <button mat-flat-button (click)="confirmDelete(recipe)" class="delete-button">
-        <mat-icon>delete</mat-icon>
-        Delete
-      </button>
-      <button *ngIf="recipe.hasPdf" mat-stroked-button (click)="openPdf(recipe.id!)" class="pdf-button">
-        <mat-icon>picture_as_pdf</mat-icon>
-        View PDF
-      </button>
-      <app-add-to-day-button [recipeId]="recipe.id" [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}" [servings]="recipe.servings" (actionMadeEmitter)="refreshDay($event)"></app-add-to-day-button>
     </div>
-    <p>Servings: {{ recipe.servings }}</p>
-    <p *ngIf="recipe.caloriesPerServing">
-      <strong>Per Serving:</strong>
-      {{ recipe.caloriesPerServing | number:'1.0-0' }} kcal,
-      protein: {{ recipe.proteinPerServing | number:'1.0-0' }} g,
-      fat: {{ recipe.fatPerServing | number:'1.0-0' }} g,
-      carbs: {{ recipe.carbohydratesPerServing | number:'1.0-0' }} g
-    </p>
-    <p><strong>Total:</strong> {{ recipe.sumCalories }} kcal, protein: {{ recipe.sumProtein }} g, fat: {{ recipe.sumFat }} g,
-      carbs: {{ recipe.sumCarbohydrates }} g</p>
-    <p *ngIf="recipe.link"><a href="{{recipe.link}}" target="_blank">{{recipe.link}}</a> </p>
-    <p *ngIf="recipe.description">{{recipe.description}}</p>
-    <app-items-table [items]="recipe.itemsUsed"/>
   </div>
 
+  <!-- Search Section -->
+  <div class="search-section animate-slide-in-down">
+    <app-recipe-search (search)="onSearch($event)"></app-recipe-search>
+  </div>
+
+  <!-- Recipes Grid -->
+  <div class="recipes-grid">
+    <div *ngFor="let recipe of recipes | async; let i = index"
+         class="recipe-card card animate-slide-in-up"
+         [style.animation-delay]="(i * 0.05) + 's'">
+
+      <!-- Recipe Image -->
+      <div class="recipe-image-container" *ngIf="recipe.hasImage">
+        <img [src]="getImageUrl(recipe.id!)"
+             [alt]="recipe.name"
+             loading="lazy"
+             class="recipe-image"
+             (error)="handleImageError($event)">
+        <div class="image-overlay">
+          <div class="servings-badge badge badge-secondary">
+            <mat-icon>restaurant</mat-icon>
+            <span>{{ recipe.servings }} servings</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recipe Content -->
+      <div class="recipe-content">
+        <!-- Recipe Title -->
+        <h2 class="recipe-title font-display">{{ recipe.name }}</h2>
+
+        <!-- Recipe Links -->
+        <div class="recipe-links" *ngIf="recipe.link">
+          <a [href]="recipe.link" target="_blank" class="recipe-link">
+            <mat-icon>link</mat-icon>
+            <span>View Original</span>
+          </a>
+        </div>
+
+        <!-- Recipe Description -->
+        <p class="recipe-description" *ngIf="recipe.description">
+          {{ recipe.description }}
+        </p>
+
+        <!-- Nutrition Info -->
+        <div class="nutrition-section">
+          <!-- Per Serving -->
+          <div class="nutrition-per-serving" *ngIf="recipe.caloriesPerServing">
+            <span class="label">Per Serving:</span>
+            <app-macro-pills
+              [calories]="recipe.caloriesPerServing"
+              [protein]="recipe.proteinPerServing"
+              [carbs]="recipe.carbohydratesPerServing"
+              [fat]="recipe.fatPerServing"
+              size="small"
+              layout="horizontal"
+              [showLabels]="true"
+            ></app-macro-pills>
+          </div>
+
+          <!-- Total -->
+          <div class="nutrition-total">
+            <span class="label">Total:</span>
+            <app-macro-pills
+              [calories]="recipe.sumCalories"
+              [protein]="recipe.sumProtein"
+              [carbs]="recipe.sumCarbohydrates"
+              [fat]="recipe.sumFat"
+              size="small"
+              layout="horizontal"
+              [showLabels]="true"
+            ></app-macro-pills>
+          </div>
+        </div>
+
+        <!-- Ingredients (Collapsible) -->
+        <details class="ingredients-details">
+          <summary class="ingredients-summary">
+            <mat-icon>restaurant_menu</mat-icon>
+            <span>View Ingredients ({{ recipe.itemsUsed.length }})</span>
+          </summary>
+          <div class="ingredients-content">
+            <app-items-table [items]="recipe.itemsUsed"></app-items-table>
+          </div>
+        </details>
+
+        <!-- Recipe Actions -->
+        <div class="recipe-actions">
+          <div class="action-buttons">
+            <button mat-flat-button class="btn btn-secondary" [routerLink]="['/edit-recipe', recipe.id]">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+
+            <button *ngIf="recipe.hasPdf" mat-stroked-button (click)="openPdf(recipe.id!)">
+              <mat-icon>picture_as_pdf</mat-icon>
+              <span>View PDF</span>
+            </button>
+
+            <app-add-to-day-button
+              [recipeId]="recipe.id"
+              [toAdd]="{name: recipe.name, itemsUsed: recipe.itemsUsed}"
+              [servings]="recipe.servings"
+              (actionMadeEmitter)="refreshDay($event)"
+              [buttonText]="'Add to Day'"
+            ></app-add-to-day-button>
+
+            <button mat-icon-button class="delete-icon-btn" (click)="confirmDelete(recipe)" matTooltip="Delete recipe">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="(recipes | async)?.length === 0" class="empty-state animate-scale-in">
+    <div class="empty-icon">📖</div>
+    <h3>No Recipes Found</h3>
+    <p>Start building your recipe collection by adding your first recipe</p>
+    <button mat-flat-button class="btn btn-primary btn-lg" routerLink="/add-recipe">
+      <mat-icon>add</mat-icon>
+      Create Your First Recipe
+    </button>
+  </div>
 </div>

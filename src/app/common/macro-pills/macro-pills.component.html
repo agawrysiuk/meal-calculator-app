@@ -1,0 +1,21 @@
+<div
+  class="macro-pills-container"
+  [class.layout-horizontal]="layout === 'horizontal'"
+  [class.layout-vertical]="layout === 'vertical'"
+  [class.size-small]="size === 'small'"
+  [class.size-medium]="size === 'medium'"
+  [class.size-large]="size === 'large'"
+>
+  <div
+    *ngFor="let pill of pills"
+    class="macro-pill"
+    [class.pill-protein]="pill.type === 'protein'"
+    [class.pill-carbs]="pill.type === 'carbs'"
+    [class.pill-fat]="pill.type === 'fat'"
+    [class.pill-calories]="pill.type === 'calories'"
+  >
+    <span *ngIf="showLabels" class="pill-label">{{ pill.label[0] }}:</span>
+    <span class="pill-value">{{ formatValue(pill.value) }}</span>
+    <span class="pill-unit">{{ pill.unit }}</span>
+  </div>
+</div>

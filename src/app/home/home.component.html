@@ -1,50 +1,150 @@
-<div style="display: flex; flex-direction: column; align-items: center;">
-  <h1>{{ selectedDate ? (selectedDate | date:'fullDate') : 'Select a Date' }}</h1>
-  <p><strong>Sum:</strong> {{ daySum.calories }} kcal, protein: {{ daySum.protein }} g, fat: {{ daySum.fat }} g,
-    carbs: {{ daySum.carbohydrates }} g</p>
-
-  <app-date-picker-input [(selectedDate)]="selectedDate" (selectedDateChange)="getMeals()"></app-date-picker-input>
-</div>
-<div class="display-flex flex-row flex-justify-center flex-gap" style="margin-bottom: 20px">
-  <div class="text-center">
-    <app-add-to-day-button [toAdd]="{name: '', itemsUsed: [], fromDate: selectedDate}" [onlyEmit]="true" (actionMadeEmitter)="copyToDay($event)"
-                           [buttonText]="'Copy day to...'"></app-add-to-day-button>
-  </div>
-  <div class="text-center">
-    <button mat-flat-button (click)="openAddItemFromListDialog()">
-      <mat-icon>add</mat-icon>
-      Add item
-    </button>
-  </div>
-</div>
-<div class="display-flex flex-column text-center">
-  <div class="meal" *ngFor="let meal of dayMeals">
-    <div class="display-flex flex-row flex-align-center">
-      <div class="flex-grow-1">
-        <div class="display-flex flex-justify-center flex-align-center">
-          <h2 style="margin-right: 8px">{{ meal.name }}</h2> <i class="material-icons" style="cursor: pointer" (click)="renameMeal(meal.id!!, meal.name)">edit</i>
-        </div>
-        <p><strong>Sum:</strong> {{ meal.sumCalories }} kcal, protein: {{ meal.sumProtein }} g, fat: {{ meal.sumFat }} g,
-          carbs: {{ meal.sumCarbohydrates }} g</p>
+<div class="home-container">
+  <!-- Hero Section with Daily Summary -->
+  <div class="hero-section animate-fade-in">
+    <div class="hero-content">
+      <!-- Date and Navigation -->
+      <div class="date-section">
+        <h1 class="page-title">{{ selectedDate | date:'fullDate' }}</h1>
+        <app-date-picker-input
+          [(selectedDate)]="selectedDate"
+          (selectedDateChange)="getMeals()"
+          class="date-picker"
+        ></app-date-picker-input>
       </div>
-      <div class="display-flex flex-row flex-gap">
-        <button mat-flat-button (click)="openAddItemFromListDialog(meal.id)">
-          <mat-icon>add</mat-icon>
-          Add item
-        </button>
-        <app-add-to-day-button [toAdd]="{name: meal.name, itemsUsed: meal.itemsUsed}"></app-add-to-day-button>
-        <button mat-flat-button (click)="deleteMeal(meal.id!)"
-                style="margin-block-end: 1.67em; background-color: red;">
-          <mat-icon>delete</mat-icon>
-          Delete
-        </button>
+
+      <!-- Nutrition Rings -->
+      <div class="nutrition-display">
+        <app-nutrition-rings
+          [calories]="daySum.calories"
+          [protein]="daySum.protein"
+          [carbs]="daySum.carbohydrates"
+          [fat]="daySum.fat"
+          [targetCalories]="2200"
+          [targetProtein]="150"
+          [targetCarbs]="250"
+          [targetFat]="70"
+          size="large"
+          [showLabels]="false"
+        ></app-nutrition-rings>
+
+        <div class="daily-summary-pills">
+          <app-macro-pills
+            [calories]="daySum.calories"
+            [protein]="daySum.protein"
+            [carbs]="daySum.carbohydrates"
+            [fat]="daySum.fat"
+            layout="horizontal"
+            size="medium"
+            [showLabels]="true"
+          ></app-macro-pills>
+        </div>
       </div>
     </div>
-    <app-items-table
-      [items]="meal.itemsUsed"
-      [allowDeletion]="true" (itemToDeleteEmitter)="catchItemToDelete($event, meal.id!)"
-      [allowEdit]="true" (itemToEditEmitter)="catchItemToEdit($event, meal.id!)"
-      [allowMove]="true" (itemToMoveEmitter)="catchItemToMove($event, meal.id!)"
-    ></app-items-table>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <button mat-flat-button class="btn btn-primary" (click)="openCreateMealDialog()">
+        <mat-icon>restaurant</mat-icon>
+        <span>Create Meal</span>
+      </button>
+      <app-add-to-day-button
+        [toAdd]="{name: '', itemsUsed: [], fromDate: selectedDate}"
+        [onlyEmit]="true"
+        (actionMadeEmitter)="copyToDay($event)"
+        [buttonText]="'Copy Day'"
+        class="copy-day-btn"
+      ></app-add-to-day-button>
+    </div>
+  </div>
+
+  <!-- Meals Section -->
+  <div class="meals-section">
+    <div class="section-header" *ngIf="dayMeals.length > 0">
+      <h2 class="section-title">Today's Meals</h2>
+      <span class="meal-count badge badge-primary">{{ dayMeals.length }} meal<span *ngIf="dayMeals.length !== 1">s</span></span>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="dayMeals.length === 0" class="empty-state animate-slide-in-up">
+      <div class="empty-icon">🍽️</div>
+      <h3>No meals yet</h3>
+      <p>Start tracking your nutrition by creating your first meal</p>
+      <button mat-flat-button class="btn btn-primary btn-lg" (click)="openCreateMealDialog()">
+        <mat-icon>restaurant</mat-icon>
+        Create Your First Meal
+      </button>
+    </div>
+
+    <!-- Meal Cards -->
+    <div class="meals-grid">
+      <div *ngFor="let meal of dayMeals; let i = index"
+           class="meal-card card animate-slide-in-up"
+           [style.animation-delay]="(i * 0.05) + 's'">
+
+        <!-- Meal Header -->
+        <div class="meal-header">
+          <div class="meal-title-section">
+            <h3 class="meal-name">{{ meal.name }}</h3>
+            <button mat-icon-button class="edit-name-btn" (click)="renameMeal(meal.id!!, meal.name)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+
+          <div class="meal-actions hide-mobile">
+            <button mat-icon-button (click)="openAddItemFromListDialog(meal.id!!)" matTooltip="Add item">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <app-add-to-day-button
+              [toAdd]="{name: meal.name, itemsUsed: meal.itemsUsed}"
+            ></app-add-to-day-button>
+            <button mat-icon-button class="delete-btn" (click)="deleteMeal(meal.id!)" matTooltip="Delete meal">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Meal Summary -->
+        <div class="meal-summary">
+          <app-macro-pills
+            [calories]="meal.sumCalories"
+            [protein]="meal.sumProtein"
+            [carbs]="meal.sumCarbohydrates"
+            [fat]="meal.sumFat"
+            layout="horizontal"
+            size="small"
+            [showLabels]="true"
+          ></app-macro-pills>
+        </div>
+
+        <!-- Items Table -->
+        <div class="meal-items">
+          <app-items-table
+            [items]="meal.itemsUsed"
+            [allowDeletion]="true"
+            (itemToDeleteEmitter)="catchItemToDelete($event, meal.id!)"
+            [allowEdit]="true"
+            (itemToEditEmitter)="catchItemToEdit($event, meal.id!)"
+            [allowMove]="true"
+            (itemToMoveEmitter)="catchItemToMove($event, meal.id!)"
+          ></app-items-table>
+        </div>
+
+        <!-- Mobile Actions (shown on mobile) -->
+        <div class="meal-actions-mobile hide-tablet-up">
+          <button mat-stroked-button (click)="openAddItemFromListDialog(meal.id!!)">
+            <mat-icon>add</mat-icon>
+            Add Item
+          </button>
+          <app-add-to-day-button
+            [toAdd]="{name: meal.name, itemsUsed: meal.itemsUsed}"
+            [buttonText]="'Copy'"
+          ></app-add-to-day-button>
+          <button mat-stroked-button color="warn" (click)="deleteMeal(meal.id!)">
+            <mat-icon>delete</mat-icon>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
