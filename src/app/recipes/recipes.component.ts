@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {baseUrl, DataService} from '../service/data.service';
-import {RecipeDto, RecipeSearchFilters} from '../dto/dto';
+import {MealTime, RecipeDto, RecipeSearchFilters, RecipeTag, MEAL_TIMES, ALL_RECIPE_TAGS, RECIPE_TAG_GROUPS} from '../dto/dto';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent, ConfirmationData} from '../common/confirmation-dialog/confirmation-dialog.component';
@@ -88,5 +88,20 @@ export class RecipesComponent {
           console.error('Error deleting recipe:', error);
         }
       );
+  }
+
+  // Helper methods for displaying meal times and tags
+  getMealTimeLabel(mealTime: MealTime): string {
+    return MEAL_TIMES.find(mt => mt.value === mealTime)?.label || mealTime;
+  }
+
+  getTagLabel(tag: RecipeTag): string {
+    return ALL_RECIPE_TAGS.find(t => t.value === tag)?.label || tag;
+  }
+
+  // Get category name for a tag (for color-coding chips by category)
+  getTagCategory(tag: RecipeTag): string {
+    const group = RECIPE_TAG_GROUPS.find(g => g.tags.some(t => t.value === tag));
+    return group?.name.toLowerCase().replace(' ', '-') || 'other';
   }
 }

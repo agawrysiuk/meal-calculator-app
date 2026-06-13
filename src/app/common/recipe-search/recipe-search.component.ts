@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {RecipeSearchFilters} from '../../dto/dto';
+import {MealTime, RecipeSearchFilters, RecipeTag, MEAL_TIMES, ALL_RECIPE_TAGS} from '../../dto/dto';
 
 @Component({
   selector: 'app-recipe-search',
@@ -11,6 +11,10 @@ import {RecipeSearchFilters} from '../../dto/dto';
 export class RecipeSearchComponent {
   @Output() search = new EventEmitter<RecipeSearchFilters>();
 
+  // Options for UI
+  mealTimeOptions = MEAL_TIMES;
+  tagOptions = ALL_RECIPE_TAGS;
+
   searchForm = new FormGroup({
     nameContains: new FormControl(''),
     minCaloriesPerServing: new FormControl<number | null>(null),
@@ -19,6 +23,8 @@ export class RecipeSearchComponent {
     maxProteinPerServing: new FormControl<number | null>(null),
     minCarbsPerServing: new FormControl<number | null>(null),
     maxCarbsPerServing: new FormControl<number | null>(null),
+    mealTimes: new FormControl<MealTime[]>([]),
+    tags: new FormControl<RecipeTag[]>([])
   });
 
   onSearch() {
@@ -32,12 +38,15 @@ export class RecipeSearchComponent {
     if (formValue.maxProteinPerServing !== null) filters.maxProteinPerServing = formValue.maxProteinPerServing!;
     if (formValue.minCarbsPerServing !== null) filters.minCarbsPerServing = formValue.minCarbsPerServing!;
     if (formValue.maxCarbsPerServing !== null) filters.maxCarbsPerServing = formValue.maxCarbsPerServing!;
+    if (formValue.mealTimes && formValue.mealTimes.length > 0) filters.mealTimes = formValue.mealTimes;
+    if (formValue.tags && formValue.tags.length > 0) filters.tags = formValue.tags;
 
     this.search.emit(filters);
   }
 
   onClear() {
     this.searchForm.reset();
+    this.searchForm.patchValue({ mealTimes: [], tags: [] });
     this.search.emit({});
   }
 }

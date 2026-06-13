@@ -30,6 +30,37 @@
   </mat-form-field>
   <br/>
 
+  <!-- Meal Times Section -->
+  <div class="form-section">
+    <mat-label class="section-label">Meal Times</mat-label>
+    <div class="chip-selection">
+      <mat-chip-listbox multiple aria-label="Meal time selection">
+        <mat-chip-option
+          *ngFor="let mt of mealTimeOptions"
+          [selected]="isMealTimeSelected(mt.value)"
+          (click)="toggleMealTime(mt.value)">
+          {{ mt.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+  </div>
+
+  <!-- Tags Section -->
+  <div class="form-section">
+    <mat-label class="section-label">Tags</mat-label>
+    <div *ngFor="let group of tagGroups" class="tag-group">
+      <span class="tag-group-name">{{ group.name }}</span>
+      <mat-chip-listbox multiple aria-label="Tag selection">
+        <mat-chip-option
+          *ngFor="let tag of group.tags"
+          [selected]="isTagSelected(tag.value)"
+          (click)="toggleTag(tag.value)">
+          {{ tag.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+  </div>
+
   <div style="margin: 16px 0;">
     <mat-label style="display: block; margin-bottom: 8px; font-weight: 500;">Recipe Image (optional)</mat-label>
     <input type="file" accept="image/*" (change)="onImageSelected($event)" #imageInput style="margin-bottom: 8px;">

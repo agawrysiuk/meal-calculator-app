@@ -91,6 +91,14 @@ export class DataService {
     if (filters.nameContains) {
       params = params.set('nameContains', filters.nameContains);
     }
+    // Add mealTimes filter (comma-separated for Spring)
+    if (filters.mealTimes && filters.mealTimes.length > 0) {
+      params = params.set('mealTimes', filters.mealTimes.join(','));
+    }
+    // Add tags filter (comma-separated for Spring)
+    if (filters.tags && filters.tags.length > 0) {
+      params = params.set('tags', filters.tags.join(','));
+    }
 
     return this.http.get<RecipeDto[]>(baseUrl + '/api/recipe/search', { params });
   }

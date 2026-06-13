@@ -14,6 +14,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOption} from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatChipsModule} from '@angular/material/chips';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ItemsComponent} from './items/items.component';
 import {DataService} from './service/data.service';
@@ -90,6 +91,7 @@ export function initData(dataService: DataService) {
     MatSelect,
     MatOption,
     MatExpansionModule,
+    MatChipsModule,
   ],
   providers: [
     provideHttpClient(),

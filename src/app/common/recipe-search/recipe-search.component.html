@@ -13,6 +13,32 @@
       </mat-form-field>
     </div>
 
+    <!-- Meal Times Filter -->
+    <div class="filter-section">
+      <h3>Meal Time</h3>
+      <mat-chip-listbox multiple formControlName="mealTimes" aria-label="Meal time filter">
+        <mat-chip-option *ngFor="let mt of mealTimeOptions" [value]="mt.value">
+          {{ mt.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <!-- Tags Filter (collapsed by default for space) -->
+    <mat-expansion-panel class="tags-filter-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filter by Tags</mat-panel-title>
+        <mat-panel-description *ngIf="searchForm.value.tags?.length">
+          {{ searchForm.value.tags?.length }} selected
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-chip-listbox multiple formControlName="tags" aria-label="Tag filter">
+        <mat-chip-option *ngFor="let tag of tagOptions" [value]="tag.value">
+          {{ tag.label }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </mat-expansion-panel>
+
     <h3>Calories per Serving</h3>
     <div class="filter-row">
       <mat-form-field appearance="outline">

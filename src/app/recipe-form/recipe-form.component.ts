@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ItemUsedDto, RecipeDto} from '../dto/dto';
+import {ItemUsedDto, MealTime, RecipeDto, RecipeTag, MEAL_TIMES, RECIPE_TAG_GROUPS} from '../dto/dto';
 import {DataService} from '../service/data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
@@ -20,7 +20,11 @@ export class RecipeFormComponent implements OnInit {
   sumProtein: number = 0;
   sumFat: number = 0;
   sumCarbohydrates: number = 0;
-  
+
+  // Meal times and tags UI constants
+  mealTimeOptions = MEAL_TIMES;
+  tagGroups = RECIPE_TAG_GROUPS;
+
   mode: 'add' | 'edit' = 'add';
   recipeId: string = '';
   recipe: RecipeDto = {
@@ -28,7 +32,9 @@ export class RecipeFormComponent implements OnInit {
     servings: 1,
     link: '',
     description: '',
-    itemsUsed: []
+    itemsUsed: [],
+    mealTimes: [],
+    tags: []
   };
 
   selectedImage?: File;
@@ -59,7 +65,11 @@ export class RecipeFormComponent implements OnInit {
     this.dataService.recipes.asObservable().subscribe(recipes => {
       const foundRecipe = recipes.find(r => r.id === this.recipeId);
       if (foundRecipe) {
-        this.recipe = { ...foundRecipe };
+        this.recipe = {
+          ...foundRecipe,
+          mealTimes: foundRecipe.mealTimes || [],
+          tags: foundRecipe.tags || []
+        };
         this.itemsUsed = [...foundRecipe.itemsUsed];
         this.calculateSums();
       }
@@ -193,5 +203,33 @@ export class RecipeFormComponent implements OnInit {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  // Meal time toggle methods
+  toggleMealTime(mealTime: MealTime): void {
+    const index = this.recipe.mealTimes.indexOf(mealTime);
+    if (index === -1) {
+      this.recipe.mealTimes = [...this.recipe.mealTimes, mealTime];
+    } else {
+      this.recipe.mealTimes = this.recipe.mealTimes.filter(mt => mt !== mealTime);
+    }
+  }
+
+  isMealTimeSelected(mealTime: MealTime): boolean {
+    return this.recipe.mealTimes.includes(mealTime);
+  }
+
+  // Tag toggle methods
+  toggleTag(tag: RecipeTag): void {
+    const index = this.recipe.tags.indexOf(tag);
+    if (index === -1) {
+      this.recipe.tags = [...this.recipe.tags, tag];
+    } else {
+      this.recipe.tags = this.recipe.tags.filter(t => t !== tag);
+    }
+  }
+
+  isTagSelected(tag: RecipeTag): boolean {
+    return this.recipe.tags.includes(tag);
   }
 }

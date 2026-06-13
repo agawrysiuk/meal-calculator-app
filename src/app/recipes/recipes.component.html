@@ -45,6 +45,24 @@
         <!-- Recipe Title -->
         <h2 class="recipe-title font-display">{{ recipe.name }}</h2>
 
+        <!-- Meal Times & Tags -->
+        <div class="recipe-tags" *ngIf="recipe.mealTimes?.length || recipe.tags?.length">
+          <!-- Meal Time Chips -->
+          <mat-chip *ngFor="let mt of recipe.mealTimes" class="meal-time-chip">
+            {{ getMealTimeLabel(mt) }}
+          </mat-chip>
+
+          <!-- Tag Chips (show first 5, then +N more) -->
+          <mat-chip
+            *ngFor="let tag of recipe.tags | slice:0:5"
+            [class]="'tag-chip tag-' + getTagCategory(tag)">
+            {{ getTagLabel(tag) }}
+          </mat-chip>
+          <mat-chip *ngIf="recipe.tags?.length > 5" class="more-tags-chip">
+            +{{ recipe.tags.length - 5 }} more
+          </mat-chip>
+        </div>
+
         <!-- Recipe Links -->
         <div class="recipe-links" *ngIf="recipe.link">
           <a [href]="recipe.link" target="_blank" class="recipe-link">

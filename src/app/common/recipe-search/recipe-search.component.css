@@ -32,3 +32,16 @@ h3 {
   gap: 8px;
   margin-top: 24px;
 }
+
+mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tags-filter-panel {
+  margin: 16px 0;
+}
+
+.tags-filter-panel mat-chip-listbox {
+  padding: 8px 0;
+}
