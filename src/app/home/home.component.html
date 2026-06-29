@@ -10,19 +10,40 @@
           (selectedDateChange)="getMeals()"
           class="date-picker"
         ></app-date-picker-input>
+
+        <div *ngIf="dailyTarget" class="target-summary">
+          <div class="target-summary-header">
+            <span>Daily target</span>
+            <button mat-icon-button (click)="openNutritionTargetDialog()" matTooltip="Edit nutrition targets">
+              <mat-icon>tune</mat-icon>
+            </button>
+          </div>
+          <div class="target-values">
+            <span>{{ dailyTarget.calories | number:'1.0-0' }} kcal</span>
+            <span>{{ dailyTarget.proteinGrams | number:'1.0-0' }}g protein</span>
+            <span>{{ dailyTarget.carbohydratesGrams | number:'1.0-0' }}g carbs</span>
+            <span>{{ dailyTarget.fatGrams | number:'1.0-0' }}g fat</span>
+          </div>
+          <div class="remaining-values">
+            <span>{{ remainingCalories }} kcal left</span>
+            <span>{{ remainingProtein }}g protein</span>
+            <span>{{ remainingCarbs }}g carbs</span>
+            <span>{{ remainingFat }}g fat</span>
+          </div>
+        </div>
       </div>
 
       <!-- Nutrition Rings -->
-      <div class="nutrition-display">
+      <div class="nutrition-display" *ngIf="dailyTarget">
         <app-nutrition-rings
           [calories]="daySum.calories"
           [protein]="daySum.protein"
           [carbs]="daySum.carbohydrates"
           [fat]="daySum.fat"
-          [targetCalories]="2200"
-          [targetProtein]="150"
-          [targetCarbs]="250"
-          [targetFat]="70"
+          [targetCalories]="dailyTarget.calories"
+          [targetProtein]="dailyTarget.proteinGrams"
+          [targetCarbs]="dailyTarget.carbohydratesGrams"
+          [targetFat]="dailyTarget.fatGrams"
           size="large"
           [showLabels]="false"
         ></app-nutrition-rings>

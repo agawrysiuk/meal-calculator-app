@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {BasePropertiesPer100HundredGramDto, ItemUsedDto, MealDto, MoveUsedItemDto} from '../dto/dto';
+import {BasePropertiesPer100HundredGramDto, DailyNutritionTargetDto, ItemUsedDto, MealDto, MoveUsedItemDto, NutritionTargetSettingsDto} from '../dto/dto';
 import {DataService} from '../service/data.service';
 import {emptyBaseProperties, formatDate, sumDataFromMeals} from '../common/helper';
 import {MatDialog} from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import {AddItemFromListDialogComponent} from '../common/add-item-from-list-dialo
 import {MealFromListDialogComponent} from '../common/meal-from-list-dialog/meal-from-list-dialog.component';
 import {PickStringDialogComponent} from '../common/pick-string-dialog/pick-string-dialog.component';
 import {CreateMealDialogComponent} from '../common/create-meal-dialog/create-meal-dialog.component';
+import {NutritionTargetDialogComponent} from '../common/nutrition-target-dialog/nutrition-target-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,15 @@ export class HomeComponent {
   selectedDate: Date = new Date();
   dayMeals: MealDto[] = [];
   daySum: BasePropertiesPer100HundredGramDto = emptyBaseProperties()
+  dailyTarget?: DailyNutritionTargetDto;
 
   constructor(private dataService: DataService, private dialog: MatDialog) {
     this.getMeals()
+    this.dataService.dailyNutritionTarget.subscribe(target => {
+      if (target) {
+        this.dailyTarget = target;
+      }
+    })
   }
 
   getMeals() {
@@ -143,5 +150,42 @@ export class HomeComponent {
         })
       }
     });
+  }
+
+  openNutritionTargetDialog() {
+    this.dataService.getNutritionTargetSettings().subscribe(settings => {
+      const dialogRef = this.dialog.open(NutritionTargetDialogComponent, {
+        width: '640px',
+        data: settings,
+      });
+
+      dialogRef.afterClosed().subscribe((result?: NutritionTargetSettingsDto) => {
+        if (result) {
+          this.dataService.updateNutritionTargetSettings(result).subscribe(() => {
+            this.dataService.updateDailyNutritionTarget();
+          })
+        }
+      });
+    })
+  }
+
+  get remainingCalories(): number {
+    return this.remaining(this.dailyTarget?.calories, this.daySum.calories);
+  }
+
+  get remainingProtein(): number {
+    return this.remaining(this.dailyTarget?.proteinGrams, this.daySum.protein);
+  }
+
+  get remainingCarbs(): number {
+    return this.remaining(this.dailyTarget?.carbohydratesGrams, this.daySum.carbohydrates);
+  }
+
+  get remainingFat(): number {
+    return this.remaining(this.dailyTarget?.fatGrams, this.daySum.fat);
+  }
+
+  private remaining(target: number | undefined, current: number): number {
+    return Math.max(Math.round((target ?? 0) - current), 0);
   }
 }

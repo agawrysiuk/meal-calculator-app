@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {BasePropertiesPer100HundredGramDto, CreateMealFromRecipeRequest, DayDto, ItemUsedDto, MealDto, MoveUsedItemDto, RecipeDto, RecipeSearchFilters} from '../dto/dto';
+import {BasePropertiesPer100HundredGramDto, CreateMealFromRecipeRequest, DailyNutritionTargetDto, DayDto, ItemUsedDto, MealDto, MoveUsedItemDto, NutritionTargetSettingsDto, RecipeDto, RecipeSearchFilters} from '../dto/dto';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {emptyBaseProperties, formatDate, sumDataFromMeals} from '../common/helper';
 
@@ -14,6 +14,7 @@ export class DataService {
   public items: BehaviorSubject<ItemUsedDto[]> = new BehaviorSubject<ItemUsedDto[]>([]);
   public recipes: BehaviorSubject<RecipeDto[]> = new BehaviorSubject<RecipeDto[]>([]);
   public today: BehaviorSubject<BasePropertiesPer100HundredGramDto> = new BehaviorSubject<BasePropertiesPer100HundredGramDto>(emptyBaseProperties());
+  public dailyNutritionTarget: BehaviorSubject<DailyNutritionTargetDto | null> = new BehaviorSubject<DailyNutritionTargetDto | null>(null);
 
   constructor(private http: HttpClient) {
   }
@@ -22,6 +23,7 @@ export class DataService {
     this.updateItems()
     this.updateRecipes()
     this.updateToday()
+    this.updateDailyNutritionTarget()
   }
 
   updateItems() {
@@ -42,6 +44,13 @@ export class DataService {
     this.getMeals(new Date())
       .subscribe(response => {
         this.today.next(sumDataFromMeals(response.meals));
+      })
+  }
+
+  updateDailyNutritionTarget() {
+    this.getDailyNutritionTarget()
+      .subscribe(response => {
+        this.dailyNutritionTarget.next(response);
       })
   }
 
@@ -153,5 +162,17 @@ export class DataService {
 
   renameMeal(mealId: string, newName: string): Observable<unknown> {
     return this.http.put<unknown>(baseUrl + '/api/meal/' + mealId + '/name', newName)
+  }
+
+  getNutritionTargetSettings(): Observable<NutritionTargetSettingsDto> {
+    return this.http.get<NutritionTargetSettingsDto>(baseUrl + '/api/nutrition-target/settings')
+  }
+
+  updateNutritionTargetSettings(settings: NutritionTargetSettingsDto): Observable<NutritionTargetSettingsDto> {
+    return this.http.put<NutritionTargetSettingsDto>(baseUrl + '/api/nutrition-target/settings', settings)
+  }
+
+  getDailyNutritionTarget(): Observable<DailyNutritionTargetDto> {
+    return this.http.get<DailyNutritionTargetDto>(baseUrl + '/api/nutrition-target/daily')
   }
 }

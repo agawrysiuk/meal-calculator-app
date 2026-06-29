@@ -102,11 +102,17 @@ export class NutritionRingsComponent implements OnChanges {
 
   getStrokeDashoffset(ring: RingData): number {
     const circumference = this.getCircumference(ring.radius);
+    if (ring.max <= 0) {
+      return circumference;
+    }
     const percentage = Math.min((ring.value / ring.max) * 100, 100);
     return circumference - (percentage / 100) * circumference;
   }
 
   getPercentage(ring: RingData): number {
+    if (ring.max <= 0) {
+      return 0;
+    }
     return Math.min(Math.round((ring.value / ring.max) * 100), 100);
   }
 }

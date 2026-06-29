@@ -168,8 +168,8 @@ export interface RecipeDto {
   name: string;
   itemsUsed: ItemUsedDto[];
   servings: number;
-  mealTimes: MealTime[];    // when the recipe is suitable
-  tags: RecipeTag[];        // flat list (categories are frontend-only)
+  mealTimes?: MealTime[] | null;    // when the recipe is suitable
+  tags?: RecipeTag[] | null;        // flat list (categories are frontend-only)
   sumCalories?: number;
   sumProtein?: number;
   sumFat?: number;
@@ -187,6 +187,23 @@ export interface RecipeDto {
 export interface DayDto {
   date: string;
   meals: MealDto[];
+}
+
+export interface NutritionTargetSettingsDto {
+  id?: string;
+  bodyWeightKg: number;
+  dailyCalories: number;
+  proteinPerKg: number;
+  carbsPercentOfRemaining: number;
+  fatPercentOfRemaining: number;
+}
+
+export interface DailyNutritionTargetDto {
+  calories: number;
+  proteinGrams: number;
+  carbohydratesGrams: number;
+  fatGrams: number;
+  settings: NutritionTargetSettingsDto;
 }
 
 export interface MoveUsedItemDto {

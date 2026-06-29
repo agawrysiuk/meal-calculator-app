@@ -42,6 +42,7 @@ import { RecipeSearchComponent } from './common/recipe-search/recipe-search.comp
 import { NutritionRingsComponent } from './common/nutrition-rings/nutrition-rings.component';
 import { MacroPillsComponent } from './common/macro-pills/macro-pills.component';
 import { CreateMealDialogComponent } from './common/create-meal-dialog/create-meal-dialog.component';
+import { NutritionTargetDialogComponent } from './common/nutrition-target-dialog/nutrition-target-dialog.component';
 
 export function initData(dataService: DataService) {
   return () => dataService.init();
@@ -70,6 +71,7 @@ export function initData(dataService: DataService) {
     NutritionRingsComponent,
     MacroPillsComponent,
     CreateMealDialogComponent,
+    NutritionTargetDialogComponent,
   ],
   imports: [
     BrowserModule,

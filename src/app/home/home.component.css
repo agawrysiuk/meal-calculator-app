@@ -49,6 +49,59 @@
   max-width: 300px;
 }
 
+.target-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 620px;
+  padding: var(--space-md);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.target-summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+}
+
+.target-summary-header button {
+  width: 36px;
+  height: 36px;
+}
+
+.target-values,
+.remaining-values {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.target-values span,
+.remaining-values span {
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  white-space: normal;
+}
+
+.target-values span {
+  color: var(--color-text-primary);
+  background: var(--color-bg-elevated);
+}
+
+.remaining-values span {
+  color: var(--color-text-secondary);
+  background: var(--color-primary-subtle);
+}
+
 /* Nutrition Display */
 .nutrition-display {
   display: flex;
@@ -314,6 +367,15 @@
     max-width: 100%;
   }
 
+  .target-summary {
+    max-width: 100%;
+  }
+
+  .target-values,
+  .remaining-values {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .nutrition-display app-nutrition-rings {
     transform: scale(0.9);
   }
@@ -395,6 +457,11 @@
 
   .page-title {
     font-size: var(--text-xl);
+  }
+
+  .target-values,
+  .remaining-values {
+    grid-template-columns: 1fr;
   }
 
   .nutrition-display app-nutrition-rings {

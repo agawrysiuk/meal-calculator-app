@@ -207,29 +207,31 @@ export class RecipeFormComponent implements OnInit {
 
   // Meal time toggle methods
   toggleMealTime(mealTime: MealTime): void {
-    const index = this.recipe.mealTimes.indexOf(mealTime);
+    const mealTimes = this.recipe.mealTimes ?? [];
+    const index = mealTimes.indexOf(mealTime);
     if (index === -1) {
-      this.recipe.mealTimes = [...this.recipe.mealTimes, mealTime];
+      this.recipe.mealTimes = [...mealTimes, mealTime];
     } else {
-      this.recipe.mealTimes = this.recipe.mealTimes.filter(mt => mt !== mealTime);
+      this.recipe.mealTimes = mealTimes.filter(mt => mt !== mealTime);
     }
   }
 
   isMealTimeSelected(mealTime: MealTime): boolean {
-    return this.recipe.mealTimes.includes(mealTime);
+    return (this.recipe.mealTimes ?? []).includes(mealTime);
   }
 
   // Tag toggle methods
   toggleTag(tag: RecipeTag): void {
-    const index = this.recipe.tags.indexOf(tag);
+    const tags = this.recipe.tags ?? [];
+    const index = tags.indexOf(tag);
     if (index === -1) {
-      this.recipe.tags = [...this.recipe.tags, tag];
+      this.recipe.tags = [...tags, tag];
     } else {
-      this.recipe.tags = this.recipe.tags.filter(t => t !== tag);
+      this.recipe.tags = tags.filter(t => t !== tag);
     }
   }
 
   isTagSelected(tag: RecipeTag): boolean {
-    return this.recipe.tags.includes(tag);
+    return (this.recipe.tags ?? []).includes(tag);
   }
 }

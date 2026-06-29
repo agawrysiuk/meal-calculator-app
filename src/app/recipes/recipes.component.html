@@ -58,8 +58,8 @@
             [class]="'tag-chip tag-' + getTagCategory(tag)">
             {{ getTagLabel(tag) }}
           </mat-chip>
-          <mat-chip *ngIf="recipe.tags?.length > 5" class="more-tags-chip">
-            +{{ recipe.tags.length - 5 }} more
+          <mat-chip *ngIf="(recipe.tags?.length ?? 0) > 5" class="more-tags-chip">
+            +{{ (recipe.tags?.length ?? 0) - 5 }} more
           </mat-chip>
         </div>
 
